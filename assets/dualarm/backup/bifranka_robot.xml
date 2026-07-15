@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mujoco model="bifrank_robot">
+  <option timestep="0.001" solver="Newton" gravity="0 0 -9.81" />
+
+  <compiler angle="radian" meshdir="/home/docker/workspace/src/mujoco_dualarm/model/meshes/" eulerseq="zyx" autolimits="true" />
+
+  <default>
+    <default class="franka">
+      <material specular="0.5" shininess="0.25"/>
+      <joint limited="true" damping="0.1" armature="0.1" frictionloss="0.1" />
+      <!-- <geom condim="4" contype="1" conaffinity="15" friction="0.9 0.2 0.2" solref="0.001 2" /> -->
+      <motor ctrllimited="true" />
+      <equality solref="0.001 2" />
+      <default class="visual">
+          <geom type="mesh" contype="0" conaffinity="0" group="2" />
+      </default>
+      <default class="collision">
+          <geom type="mesh" contype="1" conaffinity="1" group="3" friction="1 1.0 0.1" />
+      </default>
+    </default>
+    <!-- <default boxsize = "0.1 0.2 0.08"/> -->
+
+  </default>
+  
+  <asset>
+    <material class="franka" name="white" rgba="1 1 1 1"/>
+    <material class="franka" name="red" rgba="0.9 0.1 0.1 1"/>
+    <material class="franka" name="black" rgba="0.25 0.25 0.25 1"/>
+    <material class="franka" name="dark_gray" rgba="0.7 0.7 0.7 1"/>
+    <material class="franka" name="light_blue" rgba="0.3 0.3 0.3 1"/>
+
+
+    <mesh name="link0_collision" content_type="model/stl" file="./meshes/collision/link0.stl" />
+    <mesh name="link0_visual" content_type="model/obj" file="./meshes/visual/link0.obj" />
+    <mesh name="link1_collision" content_type="model/stl" file="./meshes/collision/link1.stl" />
+    <mesh name="link1_visual" content_type="model/obj" file="./meshes/visual/link1.obj" />
+    <mesh name="link2_collision" content_type="model/stl" file="./meshes/collision/link2.stl" />
+    <mesh name="link2_visual" content_type="model/obj" file="./meshes/visual/link2.obj" />
+    <mesh name="link3_collision" content_type="model/stl" file="./meshes/collision/link3.stl" />
+    <mesh name="link3_visual" content_type="model/obj" file="./meshes/visual/link3.obj" />
+    <mesh name="link4_collision" content_type="model/stl" file="./meshes/collision/link4.stl" />
+    <mesh name="link4_visual" content_type="model/obj" file="./meshes/visual/link4.obj" />
+    <mesh name="link5_collision" content_type="model/stl" file="./meshes/collision/link5.stl" />
+    <mesh name="link5_visual" content_type="model/obj" file="./meshes/visual/link5.obj" />
+    <mesh name="link6_collision" content_type="model/stl" file="./meshes/collision/link6.stl" />
+    <mesh name="link6_visual" content_type="model/obj" file="./meshes/visual/link6.obj" />
+    <mesh name="link7_collision" content_type="model/stl" file="./meshes/collision/link7.stl" />
+    <mesh name="link7_visual" content_type="model/obj" file="./meshes/visual/link7.obj" />
+    <!-- <material name="visualgeom" rgba="0.0 0.0 0.0 1" /> -->
+  </asset>
+
+
+
+  <worldbody>
+    <body name="base_link" pos="0 0 0" childclass="franka">
+      <joint name="base_joint" pos="0 0 0" axis="0 0 1" range="-1.57 1.57" actuatorfrcrange="-10 10" damping="0.1" />
+      <geom size="0.25 0.25 0.05" pos="0 0 0.05" type="box" class="collision"/>
+      <geom size="0.25 0.25 0.05" pos="0 0 0.05" type="box" class="visual" rgba="0.5 0.5 0.5 1" />
+      <geom name="lewis_fr3_link0_collision" pos="0 0.1 0.2" quat="0.92388 -0.382683 0 0" class="collision" mesh="link0_collision" />
+      <geom name="lewis_fr3_link0_visual" pos="0 0.1 0.2" quat="0.92388 -0.382683 0 0" class="visual" mesh="link0_visual" />
+      <geom name="richard_fr3_link0_collision" pos="0 -0.1 0.2" quat="0.92388 0.382683 0 0" class="collision" mesh="link0_collision" />
+      <geom name="richard_fr3_link0_visual" pos="0 -0.1 0.2" quat="0.92388 0.382683 0 0" class="visual" mesh="link0_visual" />
+      <body name="lewis_fr3_link1" pos="0 0.335467 0.435467" quat="0.92388 -0.382683 0 0">
+        <inertial pos="4.128e-07 -0.0181251 -0.0386036" quat="0.998098 -0.0605364 0.00380499 0.0110109" mass="2.92747" diaginertia="0.0239286 0.0227246 0.00610634" />
+        <joint name="lewis_fr3_joint1" pos="0 0 0" axis="0 0 1" range="-2.9007 2.9007" actuatorfrcrange="-87 87" damping="0.003" frictionloss="0.2" />
+        <geom name="lewis_fr3_link1_collision" type="mesh" mesh="link1_collision" class="collision" />
+        <geom name="lewis_fr3_link1_visual" type="mesh" mesh="link1_visual" class="visual" />
+        <body name="lewis_fr3_link2" quat="0.707107 -0.707107 0 0">
+          <inertial pos="0.00318289 -0.0743222 0.00881461" quat="0.502599 0.584437 -0.465998 0.434366" mass="2.93554" diaginertia="0.0629567 0.0411924 0.0246371" />
+          <joint name="lewis_fr3_joint2" pos="0 0 0" axis="0 0 1" range="-1.8361 1.8361" actuatorfrcrange="-87 87" damping="0.003" frictionloss="0.2" />
+          <geom name="lewis_fr3_link2_collision" type="mesh" mesh="link2_collision" class="collision" />
+          <geom name="lewis_fr3_link2_visual" type="mesh" mesh="link2_visual" class="visual" />
+          <body name="lewis_fr3_link3" pos="0 -0.316 0" quat="0.707107 0.707107 0 0">
+            <inertial pos="0.0407016 -0.00482006 -0.0289731" quat="0.921025 -0.244161 0.155272 0.260745" mass="2.2449" diaginertia="0.0267409 0.0189869 0.0171587" />
+            <joint name="lewis_fr3_joint3" pos="0 0 0" axis="0 0 1" range="-2.9007 2.9007" actuatorfrcrange="-87 87" damping="0.003" frictionloss="0.2" />
+            <geom name="lewis_fr3_link3_collision" type="mesh" mesh="link3_collision" class="collision" />
+            <geom name="lewis_fr3_link3_visual" type="mesh" mesh="link3_visual" class="visual" />
+            <body name="lewis_fr3_link4" pos="0.0825 0 0" quat="0.707107 0.707107 0 0">
+              <inertial pos="-0.0459101 0.0630493 -0.00851879" quat="0.438018 0.803311 0.00937812 0.403414" mass="2.6156" diaginertia="0.05139 0.0372717 0.0160047" />
+              <joint name="lewis_fr3_joint4" pos="0 0 0" axis="0 0 1" range="-3.077 -0.1169" actuatorfrcrange="-87 87" damping="0.003" frictionloss="0.2" />
+              <geom name="lewis_fr3_link4_collision" type="mesh" mesh="link4_collision" class="collision" />
+              <geom name="lewis_fr3_link4_visual" type="mesh" mesh="link4_visual" class="visual" />
+              <body name="lewis_fr3_link5" pos="-0.0825 0.384 0" quat="0.707107 -0.707107 0 0">
+                <inertial pos="-0.00160396 0.0292536 -0.0972966" quat="0.919031 0.125604 0.0751531 -0.366003" mass="2.32712" diaginertia="0.0579335 0.0449144 0.0130634" />
+                <joint name="lewis_fr3_joint5" pos="0 0 0" axis="0 0 1" range="-2.8763 2.8763" actuatorfrcrange="-12 12" damping="0.003" frictionloss="0.2" />
+                <geom name="lewis_fr3_link5_collision" type="mesh" mesh="link5_collision" class="collision" />
+                <geom name="lewis_fr3_link5_visual" type="mesh" mesh="link5_visual" class="visual" />
+                <body name="lewis_fr3_link6" quat="0.707107 0.707107 0 0">
+                  <inertial pos="0.0597131 -0.0410295 -0.0101693" quat="0.621301 0.552665 0.510011 0.220081" mass="1.81704" diaginertia="0.0175039 0.0161123 0.00193529" />
+                  <joint name="lewis_fr3_joint6" pos="0 0 0" axis="0 0 1" range="0.4398 4.6216" actuatorfrcrange="-12 12" damping="0.003" frictionloss="0.2" />
+                  <geom name="lewis_fr3_link6_collision" type="mesh" mesh="link6_collision" class="collision" />
+                  <geom name="lewis_fr3_link6_visual" type="mesh" mesh="link6_visual" class="visual" />
+                  <body name="lewis_fr3_link7" pos="0.088 0 0" quat="0.707107 0.707107 0 0">
+                    <inertial pos="0.00295097 -0.0315542 0.0324896" quat="0.771544 0.538012 -0.214416 0.263227" mass="0.961143" diaginertia="0.00356269 0.00349725 0.000221302" />
+                    <joint name="lewis_fr3_joint7" pos="0 0 0" axis="0 0 1" range="-3.0508 3.0508" actuatorfrcrange="-12 12" damping="0.003" frictionloss="0.2" />
+                    <geom name="lewis_fr3_link7_collision" type="mesh" mesh="link7_collision" class="collision" />
+                    <geom name="lewis_fr3_link7_visual" type="mesh" mesh="link7_visual" class="visual" />
+                    <geom size="0.04 0.024" pos="0 0 0.131" type="cylinder" class="collision" />
+                    <geom size="0.04 0.024" pos="0 0 0.131" type="cylinder" rgba="0 0 0 1" class="visual" />
+                    <site name="lewis_fr3_link8" pos="0 0 0.107" size="0.004" rgba="0.1 0.4 1 1" />
+                    <site name="lewis_aidin_ft_sensor" pos="0 0 0.107" size="0.004" rgba="1 0.4 0.1 1" />
+                    <site name="lewis_tcp_link" pos="0 0 0.155" size="0.006" rgba="0.1 1 0.4 1" />
+                    <geom name="lewis_pad_p1"
+                            type="sphere"
+                            size="0.006"
+                            pos="0.025  0.025  0.16"
+                            rgba="1 0 0 1"
+                            friction="2.0 0.1 0.01"
+                            condim="4"
+                            contype="1"
+                            conaffinity="1"
+                            solref="0.005 1"
+                            solimp="0.9 0.95 0.001"/>
+                    <geom name="lewis_pad_p2"
+                          type="sphere"
+                          size="0.006"
+                          pos="0.025 -0.025  0.16"
+                          rgba="0 1 0 1"
+                          friction="2.0 0.1 0.01"
+                          condim="4"
+                          contype="1"
+                          conaffinity="1"
+                          solref="0.005 1"
+                          solimp="0.9 0.95 0.001"/>
+                    <geom name="lewis_pad_p3"
+                          type="sphere"
+                          size="0.006"
+                          pos="-0.025  0.025  0.16"
+                          rgba="0 0 1 1"
+                          friction="2.0 0.1 0.01"
+                          condim="4"
+                          contype="1"
+                          conaffinity="1"
+                          solref="0.005 1"
+                          solimp="0.9 0.95 0.001"/>
+                    <geom name="lewis_pad_p4"
+                          type="sphere"
+                          size="0.006"
+                          pos="-0.025 -0.025 0.16"
+                          rgba="1 1 0 1"
+                          friction="2.0 0.1 0.01"
+                          condim="4"
+                          contype="1"
+                          conaffinity="1"
+                          solref="0.005 1"
+                          solimp="0.9 0.95 0.001"/>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      <body name="richard_fr3_link1" pos="0 -0.335467 0.435467" quat="0.92388 0.382683 0 0">
+        <inertial pos="4.128e-07 -0.0181251 -0.0386036" quat="0.998098 -0.0605364 0.00380499 0.0110109" mass="2.92747" diaginertia="0.0239286 0.0227246 0.00610634" />
+        <joint name="richard_fr3_joint1" pos="0 0 0" axis="0 0 1" range="-2.9007 2.9007" actuatorfrcrange="-87 87" damping="0.003" frictionloss="0.2" />
+        <geom name="richard_fr3_link1_collision" type="mesh" mesh="link1_collision" class="collision" />
+        <geom name="richard_fr3_link1_visual" type="mesh" mesh="link1_visual" class="visual" />
+        <body name="richard_fr3_link2" quat="0.707107 -0.707107 0 0">
+          <inertial pos="0.00318289 -0.0743222 0.00881461" quat="0.502599 0.584437 -0.465998 0.434366" mass="2.93554" diaginertia="0.0629567 0.0411924 0.0246371" />
+          <joint name="richard_fr3_joint2" pos="0 0 0" axis="0 0 1" range="-1.8361 1.8361" actuatorfrcrange="-87 87" damping="0.003" frictionloss="0.2" />
+          <geom name="richard_fr3_link2_collision" type="mesh" mesh="link2_collision" class="collision" />
+          <geom name="richard_fr3_link2_visual" type="mesh" mesh="link2_visual" class="visual" />
+          <body name="richard_fr3_link3" pos="0 -0.316 0" quat="0.707107 0.707107 0 0">
+            <inertial pos="0.0407016 -0.00482006 -0.0289731" quat="0.921025 -0.244161 0.155272 0.260745" mass="2.2449" diaginertia="0.0267409 0.0189869 0.0171587" />
+            <joint name="richard_fr3_joint3" pos="0 0 0" axis="0 0 1" range="-2.9007 2.9007" actuatorfrcrange="-87 87" damping="0.003" frictionloss="0.2" />
+            <geom name="richard_fr3_link3_collision" type="mesh" mesh="link3_collision" class="collision" />
+            <geom name="richard_fr3_link3_visual" type="mesh" mesh="link3_visual" class="visual" />
+            <body name="richard_fr3_link4" pos="0.0825 0 0" quat="0.707107 0.707107 0 0">
+              <inertial pos="-0.0459101 0.0630493 -0.00851879" quat="0.438018 0.803311 0.00937812 0.403414" mass="2.6156" diaginertia="0.05139 0.0372717 0.0160047" />
+              <joint name="richard_fr3_joint4" pos="0 0 0" axis="0 0 1" range="-3.077 -0.1169" actuatorfrcrange="-87 87" damping="0.003" frictionloss="0.2" />
+              <geom name="richard_fr3_link4_collision" type="mesh" mesh="link4_collision" class="collision" />
+              <geom name="richard_fr3_link4_visual" type="mesh" mesh="link4_visual" class="visual" />
+              <body name="richard_fr3_link5" pos="-0.0825 0.384 0" quat="0.707107 -0.707107 0 0">
+                <inertial pos="-0.00160396 0.0292536 -0.0972966" quat="0.919031 0.125604 0.0751531 -0.366003" mass="2.32712" diaginertia="0.0579335 0.0449144 0.0130634" />
+                <joint name="richard_fr3_joint5" pos="0 0 0" axis="0 0 1" range="-2.8763 2.8763" actuatorfrcrange="-12 12" damping="0.003" frictionloss="0.2" />
+                <geom name="richard_fr3_link5_collision" type="mesh" mesh="link5_collision" class="collision" />
+                <geom name="richard_fr3_link5_visual" type="mesh" mesh="link5_visual" class="visual" />
+                <body name="richard_fr3_link6" quat="0.707107 0.707107 0 0">
+                  <inertial pos="0.0597131 -0.0410295 -0.0101693" quat="0.621301 0.552665 0.510011 0.220081" mass="1.81704" diaginertia="0.0175039 0.0161123 0.00193529" />
+                  <joint name="richard_fr3_joint6" pos="0 0 0" axis="0 0 1" range="0.4398 4.6216" actuatorfrcrange="-12 12" damping="0.003" frictionloss="0.2" />
+                  <geom name="richard_fr3_link6_collision" type="mesh" mesh="link6_collision" class="collision" />
+                  <geom name="richard_fr3_link6_visual" type="mesh" mesh="link6_visual" class="visual" />
+                  <body name="richard_fr3_link7" pos="0.088 0 0" quat="0.707107 0.707107 0 0">
+                    <inertial pos="0.00295097 -0.0086261921 0.01324896" quat="0.771544 0.538012 -0.214416 0.263227" mass="0.961143" diaginertia="0.00356269 0.00349725 0.000221302" />
+                    <joint name="richard_fr3_joint7" pos="0 0 0" axis="0 0 1" range="-3.0508 3.0508" actuatorfrcrange="-12 12" damping="0.003" frictionloss="0.2" />
+                    <geom name="richard_fr3_link7_collision" type="mesh" mesh="link7_collision" class="collision" />
+                    <geom name="richard_fr3_link7_visual" type="mesh" mesh="link7_visual" class="visual" />
+                    <geom size="0.04 0.024" pos="0 0 0.131" type="cylinder" class="collision" />
+                    <geom size="0.04 0.024" pos="0 0 0.131" type="cylinder" rgba="0.1 0.1 0.1 1" class="visual" />
+                    <site name="richard_fr3_link8" pos="0 0 0.107" size="0.004" rgba="0.1 0.4 1 1" />
+                    <site name="richard_aidin_ft_sensor" pos="0 0 0.107" size="0.004" rgba="1 0.4 0.1 1" />
+                    <site name="richard_tcp_link" pos="0 0 0.155" size="0.006" rgba="0.1 1 0.4 1" />
+                    <geom name="richart_pad_p1"
+                            type="sphere"
+                            size="0.006"
+                            pos="0.025  0.025  0.16"
+                            rgba="1 0 0 1"
+                            friction="2.0 0.1 0.01"
+                            condim="4"
+                            contype="1"
+                            conaffinity="1"
+                            solref="0.005 1"
+                            solimp="0.9 0.95 0.001"/>
+                    <geom name="richart_pad_p2"
+                          type="sphere"
+                          size="0.006"
+                          pos="0.025 -0.025  0.16"
+                          rgba="0 1 0 1"
+                          friction="2.0 0.1 0.01"
+                          condim="4"
+                          contype="1"
+                          conaffinity="1"
+                          solref="0.005 1"
+                          solimp="0.9 0.95 0.001"/>
+                    <geom name="richart_pad_p3"
+                          type="sphere"
+                          size="0.006"
+                          pos="-0.025  0.025  0.16"
+                          rgba="0 0 1 1"
+                          friction="2.0 0.1 0.01"
+                          condim="4"
+                          contype="1"
+                          conaffinity="1"
+                          solref="0.005 1"
+                          solimp="0.9 0.95 0.001"/>
+                    <geom name="richart_pad_p4"
+                          type="sphere"
+                          size="0.006"
+                          pos="-0.025 -0.025 0.16"
+                          rgba="1 1 0 1"
+                          friction="2.0 0.1 0.01"
+                          condim="4"
+                          contype="1"
+                          conaffinity="1"
+                          solref="0.005 1"
+                          solimp="0.9 0.95 0.001"/>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <motor name="base_joint" joint="base_joint" ctrllimited="true" ctrlrange="-10 10" gear="1" />
+    <motor name="lewis_fr3_joint1" joint="lewis_fr3_joint1" ctrllimited="true" ctrlrange="-87 87" gear="1" />
+    <motor name="lewis_fr3_joint2" joint="lewis_fr3_joint2" ctrllimited="true" ctrlrange="-87 87" gear="1" />
+    <motor name="lewis_fr3_joint3" joint="lewis_fr3_joint3" ctrllimited="true" ctrlrange="-87 87" gear="1" />
+    <motor name="lewis_fr3_joint4" joint="lewis_fr3_joint4" ctrllimited="true" ctrlrange="-87 87" gear="1" />
+    <motor name="lewis_fr3_joint5" joint="lewis_fr3_joint5" ctrllimited="true" ctrlrange="-12 12" gear="1" />
+    <motor name="lewis_fr3_joint6" joint="lewis_fr3_joint6" ctrllimited="true" ctrlrange="-12 12" gear="1" />
+    <motor name="lewis_fr3_joint7" joint="lewis_fr3_joint7" ctrllimited="true" ctrlrange="-12 12" gear="1" />
+    <motor name="richard_fr3_joint1" joint="richard_fr3_joint1" ctrllimited="true" ctrlrange="-87 87" gear="1" />
+    <motor name="richard_fr3_joint2" joint="richard_fr3_joint2" ctrllimited="true" ctrlrange="-87 87" gear="1" />
+    <motor name="richard_fr3_joint3" joint="richard_fr3_joint3" ctrllimited="true" ctrlrange="-87 87" gear="1" />
+    <motor name="richard_fr3_joint4" joint="richard_fr3_joint4" ctrllimited="true" ctrlrange="-87 87" gear="1" />
+    <motor name="richard_fr3_joint5" joint="richard_fr3_joint5" ctrllimited="true" ctrlrange="-12 12" gear="1" />
+    <motor name="richard_fr3_joint6" joint="richard_fr3_joint6" ctrllimited="true" ctrlrange="-12 12" gear="1" />
+    <motor name="richard_fr3_joint7" joint="richard_fr3_joint7" ctrllimited="true" ctrlrange="-12 12" gear="1" />
+  </actuator>
+
+    <sensor>
+    <actuatorpos name="base_joint_p" actuator="base_joint" />
+    <actuatorvel name="base_joint_v" actuator="base_joint" />
+    <actuatorfrc name="base_joint_f" actuator="base_joint" noise="0.001" />
+    <actuatorpos name="lewis_fr3_joint1_p" actuator="lewis_fr3_joint1" />
+    <actuatorvel name="lewis_fr3_joint1_v" actuator="lewis_fr3_joint1" />
+    <actuatorfrc name="lewis_fr3_joint1_f" actuator="lewis_fr3_joint1" noise="0.001" />
+    <actuatorpos name="lewis_fr3_joint2_p" actuator="lewis_fr3_joint2" />
+    <actuatorvel name="lewis_fr3_joint2_v" actuator="lewis_fr3_joint2" />
+    <actuatorfrc name="lewis_fr3_joint2_f" actuator="lewis_fr3_joint2" noise="0.001" />
+    <actuatorpos name="lewis_fr3_joint3_p" actuator="lewis_fr3_joint3" />
+    <actuatorvel name="lewis_fr3_joint3_v" actuator="lewis_fr3_joint3" />
+    <actuatorfrc name="lewis_fr3_joint3_f" actuator="lewis_fr3_joint3" noise="0.001" />
+    <actuatorpos name="lewis_fr3_joint4_p" actuator="lewis_fr3_joint4" />
+    <actuatorvel name="lewis_fr3_joint4_v" actuator="lewis_fr3_joint4" />
+    <actuatorfrc name="lewis_fr3_joint4_f" actuator="lewis_fr3_joint4" noise="0.001" />
+    <actuatorpos name="lewis_fr3_joint5_p" actuator="lewis_fr3_joint5" />
+    <actuatorvel name="lewis_fr3_joint5_v" actuator="lewis_fr3_joint5" />
+    <actuatorfrc name="lewis_fr3_joint5_f" actuator="lewis_fr3_joint5" noise="0.001" />
+    <actuatorpos name="lewis_fr3_joint6_p" actuator="lewis_fr3_joint6" />
+    <actuatorvel name="lewis_fr3_joint6_v" actuator="lewis_fr3_joint6" />
+    <actuatorfrc name="lewis_fr3_joint6_f" actuator="lewis_fr3_joint6" noise="0.001" />
+    <actuatorpos name="lewis_fr3_joint7_p" actuator="lewis_fr3_joint7" />
+    <actuatorvel name="lewis_fr3_joint7_v" actuator="lewis_fr3_joint7" />
+    <actuatorfrc name="lewis_fr3_joint7_f" actuator="lewis_fr3_joint7" noise="0.001" />
+    <actuatorpos name="richard_fr3_joint1_p" actuator="richard_fr3_joint1" />
+    <actuatorvel name="richard_fr3_joint1_v" actuator="richard_fr3_joint1" />
+    <actuatorfrc name="richard_fr3_joint1_f" actuator="richard_fr3_joint1" noise="0.001" />
+    <actuatorpos name="richard_fr3_joint2_p" actuator="richard_fr3_joint2" />
+    <actuatorvel name="richard_fr3_joint2_v" actuator="richard_fr3_joint2" />
+    <actuatorfrc name="richard_fr3_joint2_f" actuator="richard_fr3_joint2" noise="0.001" />
+    <actuatorpos name="richard_fr3_joint3_p" actuator="richard_fr3_joint3" />
+    <actuatorvel name="richard_fr3_joint3_v" actuator="richard_fr3_joint3" />
+    <actuatorfrc name="richard_fr3_joint3_f" actuator="richard_fr3_joint3" noise="0.001" />
+    <actuatorpos name="richard_fr3_joint4_p" actuator="richard_fr3_joint4" />
+    <actuatorvel name="richard_fr3_joint4_v" actuator="richard_fr3_joint4" />
+    <actuatorfrc name="richard_fr3_joint4_f" actuator="richard_fr3_joint4" noise="0.001" />
+    <actuatorpos name="richard_fr3_joint5_p" actuator="richard_fr3_joint5" />
+    <actuatorvel name="richard_fr3_joint5_v" actuator="richard_fr3_joint5" />
+    <actuatorfrc name="richard_fr3_joint5_f" actuator="richard_fr3_joint5" noise="0.001" />
+    <actuatorpos name="richard_fr3_joint6_p" actuator="richard_fr3_joint6" />
+    <actuatorvel name="richard_fr3_joint6_v" actuator="richard_fr3_joint6" />
+    <actuatorfrc name="richard_fr3_joint6_f" actuator="richard_fr3_joint6" noise="0.001" />
+    <actuatorpos name="richard_fr3_joint7_p" actuator="richard_fr3_joint7" />
+    <actuatorvel name="richard_fr3_joint7_v" actuator="richard_fr3_joint7" />
+    <actuatorfrc name="richard_fr3_joint7_f" actuator="richard_fr3_joint7" noise="0.001" />
+    <!-- <framequat name="orientation" objtype="site" noise="0.001" objname="imu" /> -->
+    <!-- <gyro name="angular-velocity" site="imu" noise="0.005" cutoff="34.9" /> -->
+  </sensor>
+
+
+
+
+</mujoco>
