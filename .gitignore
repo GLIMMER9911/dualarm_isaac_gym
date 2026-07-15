@@ -104,4 +104,5 @@ Desktop.ini
 *.log
 *.tmp
 *.bak
+*.zip
 .cache/
