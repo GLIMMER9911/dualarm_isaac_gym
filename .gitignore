@@ -1,0 +1,107 @@
+# =============================================================================
+# Python
+# =============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+*.cover
+*.so
+
+# =============================================================================
+# Isaac Gym / RL training artifacts
+# (based on upstream IsaacGymEnvs + this project's train.py layout)
+# =============================================================================
+
+# Hydra / experiment configs dumped at runtime
+runs/
+outputs/
+logs/
+logs*/
+nn/
+*train_dir*
+*ige_logs*
+*.hydra*
+
+# RL-Games checkpoints and PBT population snapshots
+*.pth
+*.pt
+*.ckpt
+checkpoints/
+
+# Weights & Biases
+wandb/
+*wandb*
+
+# Recorded rollouts (train.py writes to videos/<run_name>/)
+videos/
+
+# TensorBoard / evaluation summaries (used by some tasks)
+eval_summaries/
+events.out.tfevents.*
+
+# Benchmark / test result dumps
+isaacgymenvs/benchmarks/results/
+isaacgymenvs/simpletests/results/
+tests/logs/
+
+# =============================================================================
+# IDE / editor
+# =============================================================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# =============================================================================
+# OS
+# =============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =============================================================================
+# Environment / secrets
+# =============================================================================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# =============================================================================
+# Jupyter
+# =============================================================================
+.ipynb_checkpoints/
+
+# =============================================================================
+# Misc build / temp
+# =============================================================================
+*.log
+*.tmp
+*.bak
+.cache/
