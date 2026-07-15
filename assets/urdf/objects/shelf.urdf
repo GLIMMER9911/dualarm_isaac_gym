@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!--
+This is a model of Ikea Kallax 2
+https://www.ikea.com/us/en/p/kallax-shelf-unit-black-brown-60275812/#content
+-->
+<robot name="shelf">
+  <link name="shelf">
+    <visual>
+      <origin xyz="-0.195 -0.382 0" rpy="1.5708 0 1.5708"/>
+      <geometry>
+        <mesh filename="meshes/shelf.stl" scale="1e-3 1e-3 1e-3"/>
+      </geometry>
+    </visual>
+    <!-- bottom wall -->
+    <visual name="bottom_vis">
+      <origin xyz="0 0 0.0195"/>
+      <geometry>
+        <box size="0.39 0.765 0.039"/>
+      </geometry>
+    </visual>
+    <collision name="bottom_col">
+      <origin xyz="0 0 0.0195"/>
+      <geometry>
+        <box size="0.39 0.765 0.039"/>
+      </geometry>
+    </collision>
+    <!-- left wall -->
+    <visual name="left_vis">
+      <origin xyz="0 0.3645 0.3825"/>
+      <geometry>
+        <box size="0.39 0.036 0.765"/>
+      </geometry>
+    </visual>
+    <collision name="left_col">
+      <origin xyz="0 0.3645 0.3825"/>
+      <geometry>
+        <box size="0.39 0.036 0.765"/>
+      </geometry>
+    </collision>
+    <!-- vertical center wall -->
+    <visual name="center_v_vis">
+      <origin xyz="0 0 0.3825"/>
+      <geometry>
+        <box size="0.39 0.016 0.765"/>
+      </geometry>
+    </visual>
+    <collision name="center_v_col">
+      <origin xyz="0 0 0.3825"/>
+      <geometry>
+        <box size="0.39 0.016 0.765"/>
+      </geometry>
+    </collision>
+    <!-- horizontal center wall -->
+    <visual name="center_h_vis">
+      <origin xyz="0 0 0.381"/>
+      <geometry>
+        <box size="0.39 0.765 0.016"/>
+      </geometry>
+    </visual>
+    <collision name="center_h_col">
+      <origin xyz="0 0 0.381"/>
+      <geometry>
+        <box size="0.39 0.765 0.016"/>
+      </geometry>
+    </collision>
+
+  </link>
+</robot>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!-- This is a model of an empty 5-gallon water jug.
+The mesh was created on 01/16/2024 by Aimee Goncalves.
+The collision geometries does not include ridges.-->
+<robot name="jug_5_gallon">
+  <!-- The moment of inertia is for a solid cylinder  -->
+  <!-- with uniform density. -->
+  <link name="jug">
+    <inertial>
+      <mass value="0.8"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.014" ixy="0" ixz="0" iyy="0.014" iyz="0" izz="0.006"/>
+    </inertial>
+    <visual name="jug_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/water-bottle-5gal-detail-full-9608.obj"/>
+      </geometry>
+    </visual>
+    <collision name="jug_bottom_collision">
+      <origin rpy="0 0 0" xyz="0 0 -0.0535"/>
+      <geometry>
+        <cylinder radius="0.13" length="0.363"/>
+      </geometry>
+    </collision>
+    <collision name="jug_middle_collision">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/jug_water_5_gallon_plain_mid_208.obj"/>
+      </geometry>
+    </collision>
+    <collision name="jug_top_collision">
+      <origin rpy="0 0 0" xyz="0 0 0.218"/>
+      <geometry>
+        <cylinder radius="0.0285" length="0.077"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>

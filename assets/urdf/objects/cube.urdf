@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+This is a cube with a side length of 0.15 meters.
+-->
+<robot name="object">
+  <link name="object">
+    <visual>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/cube.obj" scale=".15 .15 .15"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <box size="0.15 0.15 0.15"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <density value="300.0"/>
+    </inertial>
+  </link>
+</robot>

@@ -1,0 +1,1172 @@
+<?xml version="1.0"?>
+<!--
+This is a URDF file for the Punyo robot.
+The robot has a torso and two arms. Each arm is covered by six floatie 2.0s and one floatie 1.0,
+and the end-effector is a bubble paw. This is intended as
+a high-fidelity model of the robot.
+
+The continuous joints are limited by hard mechanical stops
+at the limits below. The revolute joint are not mechanically
+limited, thus using the manufacturer's limits.
+The limits are duplicated from models/robot/gen_punyo_jaco_arm.py,
+thus, they should be kept in sync.
+
+The effort limits were changed from those of the original URDF
+(from Drake) to match the values provided by the vendor in
+the Kinova Actuator Series User Guide.
+-->
+<robot name="punyo">
+  <link name="head">
+    <visual name='head_visual'>
+      <geometry>
+        <mesh filename="meshes/A3_Punyo_Head_8k.obj"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision name='neck_collision'>
+      <origin rpy="0 0 0" xyz="-0.03 0 0.49"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.055"/>
+      </geometry>
+      <material name="white"/>
+    </collision>
+    <collision name='head_collision'>
+      <origin rpy="0 0 0" xyz="0 0 0.655"/>
+      <geometry>
+        <sphere radius="0.16"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="head_torso_link" type="fixed">
+    <parent link="torso"/>
+    <child link="head"/>
+    <axis xyz="0 0 0"/>
+    <limit effort="2000" lower="0" upper="0" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+  <link name="torso">
+    <visual name='chest_visual'>
+      <geometry>
+        <mesh filename="meshes/MA-081-PT-0003_chest_middle.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision name='chest_collision'>
+      <geometry>
+        <mesh filename="meshes/MA-081-PT-0003_chest_middle.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="j2s7s300_link_base_l">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/base.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/base.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.965"/>
+      <origin rpy="0 0 0" xyz="0 0 0.1255"/>
+      <inertia ixx="0.000951270861568" ixy="0" ixz="0" iyy="0.000951270861568" iyz="0" izz="0.000374272"/>
+    </inertial>
+  </link>
+  <joint name="j2s7s300_joint_base_l" type="fixed">
+    <parent link="torso"/>
+    <child link="j2s7s300_link_base_l"/>
+    <axis xyz="0 0 0"/>
+    <limit effort="2000" lower="0" upper="0" velocity="1"/>
+    <origin rpy="0 0 1.5707963267948966" xyz="0 0.27 0.114"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+  <link name="j2s7s300_link_1_l">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/shoulder.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/ring_big.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/shoulder.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.790"/>
+      <origin xyz="0 -0.002 -0.0605"/>
+      <inertia ixx="0.00152031725204" ixy="0" ixz="0" iyy="0.00152031725204" iyz="0" izz="0.00059816"/>
+    </inertial>
+  </link>
+  <joint name="j2s7s300_joint_1_l" type="revolute">
+    <parent link="j2s7s300_link_base_l"/>
+    <child link="j2s7s300_link_1_l"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30.5" lower="0.18" upper="6.10" velocity="0.63"/>
+    <origin rpy="0 3.14159265359 0" xyz="0 0 0.15675"/>
+    <dynamics damping="18.0" friction="0.0"/>
+  </joint>
+  <link name="sensor_cover_0_l">
+    <visual>
+      <geometry>
+        <sphere radius="0.045"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <inertial>
+      <mass value="0.190"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.000154" ixy="0" ixz="0" iyy="0.000154" iyz="0" izz="0.000154"/>
+    </inertial>
+  </link>
+  <joint name='sensor_cover_0_l_on_link_2_l' type='fixed'>
+    <parent link='j2s7s300_link_2_l'/>
+    <child link='sensor_cover_0_l'/>
+    <origin xyz="0 -0.01 -0.05" rpy="0 0 0"/>
+  </joint>
+  <link name="j2s7s300_link_2_l">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/arm_half_1.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/ring_big.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/arm_half_1.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.876"/>
+      <origin xyz="0 -0.106 0"/>
+      <inertia ixx="0.00247073761701" ixy="0" ixz="0" iyy="0.000380115" iyz="0" izz="0.00247073761701"/>
+    </inertial>
+  </link>
+  <joint name='j2s7s300_link_2_l_floatie_2.0a_on_link_2_l' type='fixed'>
+    <parent link='j2s7s300_link_2_l'/>
+    <child link='floatie_2.0a_on_link_2_l'/>
+    <origin xyz="0 -0.10 0" rpy="1.507 0 0"/>
+  </joint>
+  <link name="floatie_2.0a_on_link_2_l">
+    <!-- Add two floatie 2.0s on Left Link 2. -->
+    <inertial>
+      <mass value="0.065"/>
+    </inertial>
+    <visual name='floatie_2.0a_on_link_2_l_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_2.0a_on_link_2_l_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name='j2s7s300_link_2_l_floatie_2.0b_on_link_2_l' type='fixed'>
+    <parent link='j2s7s300_link_2_l'/>
+    <child link='floatie_2.0b_on_link_2_l'/>
+    <origin xyz="0 -0.17 0" rpy="1.507 0 0"/>
+  </joint>
+  <link name="floatie_2.0b_on_link_2_l">
+    <inertial>
+      <mass value="0.065"/>
+    </inertial>
+    <visual name='floatie_2.0b_on_link_2_l_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_2.0b_on_link_2_l_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j2s7s300_joint_2_l" type="revolute">
+    <parent link="j2s7s300_link_1_l"/>
+    <child link="j2s7s300_link_2_l"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30.5" lower="0.523598775598" upper="5.75958653158" velocity="0.63"/>
+    <origin rpy="-1.57079632679 0 3.14159265359" xyz="0 0.0016 -0.11875"/>
+    <dynamics damping="18.0" friction="0.0"/>
+  </joint>
+  <link name="sensor_cover_1_l">
+    <visual>
+      <geometry>
+        <sphere radius="0.045"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <inertial>
+      <mass value="0.190"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.000154" ixy="0" ixz="0" iyy="0.000154" iyz="0" izz="0.000154"/>
+    </inertial>
+  </link>
+  <joint name='sensor_cover_1_l_on_link_3_l' type='fixed'>
+    <parent link='j2s7s300_link_3_l'/>
+    <child link='sensor_cover_1_l'/>
+    <origin xyz="0 0.055 -0.195" rpy="0 0 0"/>
+  </joint>
+  <link name="j2s7s300_link_3_l">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/arm_half_2.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/ring_big.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/arm_half_2.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.876"/>
+      <origin xyz="0 0 -0.106"/>
+      <inertia ixx="0.00247073761701" ixy="0" ixz="0" iyy="0.00247073761701" iyz="0" izz="0.000380115"/>
+    </inertial>
+  </link>
+  <joint name='j2s7s300_link_3_l_floatie_2.0a_on_link_3_l' type='fixed'>
+    <parent link='j2s7s300_link_3_l'/>
+    <child link='floatie_2.0a_on_link_3_l'/>
+    <origin xyz="0 0 -0.049" rpy="0 0 0"/>
+  </joint>
+  <link name="floatie_2.0a_on_link_3_l">
+    <!-- Add two floatie 2.0s on Left Link 3. -->
+    <inertial>
+      <mass value="0.065"/>
+    </inertial>
+    <visual name='floatie_2.0a_on_link_3_l_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_2.0a_on_link_3_l_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name='j2s7s300_link_3_l_floatie_2.0b_on_link_3_l' type='fixed'>
+    <parent link='j2s7s300_link_3_l'/>
+    <child link='floatie_2.0b_on_link_3_l'/>
+    <origin xyz="0 0 -0.11" rpy="0 0 0"/>
+  </joint>
+  <link name="floatie_2.0b_on_link_3_l">
+    <inertial>
+      <mass value="0.065"/>
+    </inertial>
+    <visual name='floatie_2.0b_on_link_3_l_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_2.0b_on_link_3_l_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j2s7s300_joint_3_l" type="revolute">
+    <parent link="j2s7s300_link_2_l"/>
+    <child link="j2s7s300_link_3_l"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30.5" lower="0.18" upper="6.10" velocity="0.63"/>
+    <origin rpy="-1.57079632679 0 0" xyz="0 -0.205 0"/>
+    <dynamics damping="18.0" friction="0.0"/>
+  </joint>
+  <link name="sensor_cover_2_l">
+    <visual>
+      <geometry>
+        <sphere radius="0.045"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <inertial>
+      <mass value="0.190"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.000154" ixy="0" ixz="0" iyy="0.000154" iyz="0" izz="0.000154"/>
+    </inertial>
+  </link>
+  <joint name='sensor_cover_2_l_on_link_4_l' type='fixed'>
+    <parent link='j2s7s300_link_4_l'/>
+    <child link='sensor_cover_2_l'/>
+    <origin xyz="0 0.01 -0.05" rpy="0 0 0"/>
+  </joint>
+  <link name="j2s7s300_link_4_l">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/forearm.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/ring_small.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/forearm.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.625"/>
+      <origin xyz="0 0.119 -0.0086"/>
+      <inertia ixx="0.00142022431908" ixy="0" ixz="0" iyy="0.000304335" iyz="0" izz="0.00142022431908"/>
+    </inertial>
+  </link>
+  <joint name='j2s7s300_link_4_l_floatie_2.0a_on_link_4_l' type='fixed'>
+    <parent link='j2s7s300_link_4_l'/>
+    <child link='floatie_2.0a_on_link_4_l'/>
+    <origin xyz="0 0.085 -0.01" rpy="1.6 0 0"/>
+  </joint>
+  <link name="floatie_2.0a_on_link_4_l">
+    <!-- Add two floatie 2.0s on Left Link 4. -->
+    <inertial>
+      <mass value="0.065"/>
+    </inertial>
+    <visual name='floatie_2.0a_on_link_4_l_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_2.0a_on_link_4_l_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name='j2s7s300_link_4_l_floatie_2.0b_on_link_4_l' type='fixed'>
+    <parent link='j2s7s300_link_4_l'/>
+    <child link='floatie_2.0b_on_link_4_l'/>
+    <origin xyz="0 0.16 -0.01" rpy="1.6 0 0"/>
+  </joint>
+  <link name="floatie_2.0b_on_link_4_l">
+    <inertial>
+      <mass value="0.065"/>
+    </inertial>
+    <visual name='floatie_2.0b_on_link_4_l_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_2.0b_on_link_4_l_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j2s7s300_joint_4_l" type="revolute">
+    <parent link="j2s7s300_link_3_l"/>
+    <child link="j2s7s300_link_4_l"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30.5" lower="0.523598775598" upper="5.75958653158" velocity="0.63"/>
+    <origin rpy="1.57079632679 0 3.14159265359" xyz="0 0 -0.205"/>
+    <dynamics damping="18.0" friction="0.0"/>
+  </joint>
+  <link name="j2s7s300_link_5_l">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/wrist_spherical_1.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/ring_small.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/wrist_spherical_1.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.485"/>
+      <origin xyz="0 0.0028848942 -0.063"/>
+      <inertia ixx="0.0004321316048" ixy="0" ixz="0" iyy="0.0004321316048" iyz="0" izz="9.26e-05"/>
+    </inertial>
+  </link>
+  <joint name="j2s7s300_joint_5_l" type="revolute">
+    <parent link="j2s7s300_link_4_l"/>
+    <child link="j2s7s300_link_5_l"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="6.8" lower="0.18" upper="6.10" velocity="0.85"/>
+    <origin rpy="-1.57079632679 0 3.14159265359" xyz="0 0.2073 -0.0114"/>
+    <dynamics damping="3.0" friction="0.0"/>
+  </joint>
+  <link name="j2s7s300_link_6_l">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/wrist_spherical_2.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/ring_small.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/wrist_spherical_2.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.486"/>
+      <origin xyz="0 0.063 -0.0028562765"/>
+      <inertia ixx="0.0004321316048" ixy="0" ixz="0" iyy="9.26e-05" iyz="0" izz="0.0004321316048"/>
+    </inertial>
+  </link>
+  <joint name="j2s7s300_joint_floatie_1.0_partA_l" type="fixed">
+    <parent link="j2s7s300_link_6_l"/>
+    <child link="floatie_1.0_on_link_6_l"/>
+    <origin rpy="1.55 0 0" xyz="0 0.055 0.005"/>
+  </joint>
+  <link name="floatie_1.0_on_link_6_l">
+    <inertial>
+      <mass value="0.025"/>
+    </inertial>
+    <visual name='floatie_1.0_on_link_6_l_visual_1'>
+      <origin rpy="0 0 0" xyz="0 0 0.02"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.065"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_1.0_on_link_6_l_collision_1'>
+      <origin rpy="0 0 0" xyz="0 0 0.02"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.065"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j2s7s300_joint_floatie_1.0_partB_l" type="fixed">
+    <parent link="j2s7s300_link_5_l"/>
+    <child link="floatie_1.0_on_link_5_l"/>
+    <origin rpy="0 0 0" xyz="0 0.005 -0.04"/>
+  </joint>
+ <link name="floatie_1.0_on_link_5_l">
+    <inertial>
+      <mass value="0.025"/>
+    </inertial>
+    <visual name='floatie_1.0_on_link_5_l_visual'>
+      <origin rpy="0 0 0" xyz="0 0 -0.04"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.065"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_1.0_on_link_5_l_collision'>
+      <origin rpy="0 0 0" xyz="0 0 -0.04"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.065"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j2s7s300_joint_6_l" type="revolute">
+    <parent link="j2s7s300_link_5_l"/>
+    <child link="j2s7s300_link_6_l"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="6.8" lower="0.523598775598" upper="5.75958653158" velocity="0.85"/>
+    <origin rpy="1.57079632679 0 3.14159265359" xyz="0 0 -0.10375"/>
+    <dynamics damping="3.0" friction="0.0"/>
+  </joint>
+  <link name="j2s7s300_link_7_l">
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+    </inertial>
+  </link>
+  <joint name="j2s7s300_joint_7_l" type="revolute">
+    <parent link="j2s7s300_link_6_l"/>
+    <child link="j2s7s300_link_7_l"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="6.8" lower="0.18" upper="6.10" velocity="0.85"/>
+    <origin rpy="-1.57079632679 0 3.14159265359" xyz="0 0.10375 0"/>
+    <dynamics damping="3.0" friction="0.0"/>
+  </joint>
+  <link name="paw_mount_link_l">
+    <!-- Inertial values are approximate and calculated for a
+         cylinder of radius 35mm, height 110mm and mass 270gms -->
+    <inertial>
+      <mass value="0.27"/>
+      <origin xyz="-0.05 0.07 0" rpy="1.5707 0 0.85"/>
+      <inertia ixx="0.000355" ixy="0" ixz="0" iyy="0.000355" iyz="0" izz="0.000165"/>
+    </inertial>
+    <!-- Add the mount mesh for visual and collision. -->
+    <visual>
+      <geometry>
+        <mesh filename="meshes/MA-027-AY-0006_mount.obj"/>
+      </geometry>
+      <material name="violet"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/MA-027-AY-0006_mount.obj"/>
+      </geometry>
+    </collision>
+    <!-- Add the frame mesh for visual and collision. -->
+    <visual>
+      <geometry>
+        <mesh filename="meshes/MA-027-AY-0006_pawframe.obj"/>
+      </geometry>
+      <material name="violet"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/MA-027-AY-0006_pawframe.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="paw_bubble_link_l">
+    <!-- Add the bubble mesh for visual and collision. -->
+    <visual>
+      <geometry>
+        <mesh filename="meshes/MA-027-AY-0006_bubble35mm.obj"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/MA-027-AY-0006_bubble35mm.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name='paw_joint_l' type='fixed'>
+    <parent link='j2s7s300_link_7_l'/>
+    <child link='paw_mount_link_l'/>
+    <origin rpy="-1.5705 0 2.0944" xyz="0 0 0"/>
+  </joint>
+  <joint name='paw_bubble_joint_l' type='fixed'>
+    <parent link='paw_mount_link_l'/>
+    <child link='paw_bubble_link_l'/>
+  </joint>
+  <link name="bubble_center_l">
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+    </inertial>
+  </link>
+  <joint name='dummy_joint_l' type='fixed'>
+    <parent link='paw_mount_link_l'/>
+    <child link='bubble_center_l'/>
+    <origin rpy="0 0 0" xyz="-0.1295 0.0831 0.0017"/>
+  </joint>
+
+  <link name="j2s7s300_link_base_r">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/base.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/base.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.965"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.1255"/>
+      <inertia ixx="0.000951270861568" ixy="0" ixz="0" iyy="0.000951270861568" iyz="0" izz="0.000374272"/>
+    </inertial>
+  </link>
+
+  <joint name="j2s7s300_joint_base_r" type="fixed">
+    <parent link="torso"/>
+    <child link="j2s7s300_link_base_r"/>
+    <axis xyz="0 0 0"/>
+    <limit effort="2000" lower="0" upper="0" velocity="1"/>
+    <origin rpy="0 0 1.5707963267948966" xyz="0 -0.27 0.114"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+  <link name="j2s7s300_link_1_r">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/shoulder.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/ring_big.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/shoulder.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.790"/>
+      <origin xyz="0 -0.002 -0.0605"/>
+      <inertia ixx="0.00152031725204" ixy="0" ixz="0" iyy="0.00152031725204" iyz="0" izz="0.00059816"/>
+    </inertial>
+  </link>
+  <joint name="j2s7s300_joint_1_r" type="revolute">
+    <parent link="j2s7s300_link_base_r"/>
+    <child link="j2s7s300_link_1_r"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30.5" lower="0.18" upper="6.10" velocity="0.63"/>
+    <origin rpy="0 3.14159265359 0" xyz="0 0 0.15675"/>
+    <dynamics damping="18.0" friction="0.0"/>
+  </joint>
+  <link name="sensor_cover_0_r">
+    <visual>
+      <geometry>
+        <sphere radius="0.045"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <inertial>
+      <mass value="0.190"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.000154" ixy="0" ixz="0" iyy="0.000154" iyz="0" izz="0.000154"/>
+    </inertial>
+  </link>
+  <joint name='sensor_cover_0_r_on_link_2_r' type='fixed'>
+    <parent link='j2s7s300_link_2_r'/>
+    <child link='sensor_cover_0_r'/>
+    <origin xyz="0 -0.01 -0.05" rpy="0 0 0"/>
+  </joint>
+  <link name="j2s7s300_link_2_r">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/arm_half_1.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/ring_big.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/arm_half_1.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.876"/>
+      <origin xyz="0 -0.106 0"/>
+      <inertia ixx="0.00247073761701" ixy="0" ixz="0" iyy="0.000380115" iyz="0" izz="0.00247073761701"/>
+    </inertial>
+  </link>
+  <joint name='j2s7s300_link_2_r_floatie_2.0a_on_link_2_r' type='fixed'>
+    <parent link='j2s7s300_link_2_r'/>
+    <child link='floatie_2.0a_on_link_2_r'/>
+    <origin xyz="0 -0.10 0" rpy="1.507 0 0"/>
+  </joint>
+  <link name='floatie_2.0a_on_link_2_r'>
+    <!-- Add two floatie 2.0s on Right Link 2. -->
+    <inertial>
+      <mass value="0.065"/>
+    </inertial>
+    <visual name='floatie_2.0a_on_link_2_r_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_2.0a_on_link_2_r_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name='j2s7s300_link_2_r_floatie_2.0b_on_link_2_r' type='fixed'>
+    <parent link='j2s7s300_link_2_r'/>
+    <child link='floatie_2.0b_on_link_2_r'/>
+    <origin xyz="0 -0.17 0" rpy="1.507 0 0"/>
+  </joint>
+  <link name='floatie_2.0b_on_link_2_r'>
+    <inertial>
+      <mass value="0.065"/>
+    </inertial>
+    <visual name='floatie_2.0b_on_link_2_r_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_2.0b_on_link_2_r_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j2s7s300_joint_2_r" type="revolute">
+    <parent link="j2s7s300_link_1_r"/>
+    <child link="j2s7s300_link_2_r"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30.5" lower="0.523598775598" upper="5.75958653158" velocity="0.63"/>
+    <origin rpy="-1.57079632679 0 3.14159265359" xyz="0 0.0016 -0.11875"/>
+    <dynamics damping="18.0" friction="0.0"/>
+  </joint>
+  <link name="sensor_cover_1_r">
+    <visual>
+      <geometry>
+        <sphere radius="0.045"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <inertial>
+      <mass value="0.190"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.000154" ixy="0" ixz="0" iyy="0.000154" iyz="0" izz="0.000154"/>
+    </inertial>
+  </link>
+  <joint name='sensor_cover_1_r_on_link_3_r' type='fixed'>
+    <parent link='j2s7s300_link_3_r'/>
+    <child link='sensor_cover_1_r'/>
+    <origin xyz="0 0.055 -0.195" rpy="0 0 0"/>
+  </joint>
+  <link name="j2s7s300_link_3_r">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/arm_half_2.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/ring_big.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/arm_half_2.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.876"/>
+      <origin xyz="0 0 -0.106"/>
+      <inertia ixx="0.00247073761701" ixy="0" ixz="0" iyy="0.00247073761701" iyz="0" izz="0.000380115"/>
+    </inertial>
+  </link>
+  <joint name='j2s7s300_link_3_r_floatie_2.0a_on_link_3_r' type='fixed'>
+    <parent link='j2s7s300_link_3_r'/>
+    <child link='floatie_2.0a_on_link_3_r'/>
+    <origin xyz="0 0 -0.049" rpy="0 0 0"/>
+  </joint>
+  <link name='floatie_2.0a_on_link_3_r'>
+    <!-- Add two floatie 2.0s on Right Link 3. -->
+    <inertial>
+      <mass value="0.065"/>
+    </inertial>
+    <visual name='floatie_2.0a_on_link_3_r_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_2.0a_on_link_3_r_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name='j2s7s300_link_3_r_floatie_2.0b_on_link_3_r' type='fixed'>
+    <parent link='j2s7s300_link_3_r'/>
+    <child link='floatie_2.0b_on_link_3_r'/>
+    <origin xyz="0 0 -0.11" rpy="0 0 0"/>
+  </joint>
+  <link name='floatie_2.0b_on_link_3_r'>
+    <inertial>
+      <mass value="0.065"/>
+    </inertial>
+    <visual name='floatie_2.0b_on_link_3_r_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_2.0b_on_link_3_r_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j2s7s300_joint_3_r" type="revolute">
+    <parent link="j2s7s300_link_2_r"/>
+    <child link="j2s7s300_link_3_r"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30.5" lower="0.18" upper="6.10" velocity="0.63"/>
+    <origin rpy="-1.57079632679 0 0" xyz="0 -0.205 0"/>
+    <dynamics damping="18.0" friction="0.0"/>
+  </joint>
+
+  <link name="sensor_cover_2_r">
+    <visual>
+      <geometry>
+        <sphere radius="0.045"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <inertial>
+      <mass value="0.190"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.000154" ixy="0" ixz="0" iyy="0.000154" iyz="0" izz="0.000154"/>
+    </inertial>
+  </link>
+  <joint name='sensor_cover_2_r_on_link_4_r' type='fixed'>
+    <parent link='j2s7s300_link_4_r'/>
+    <child link='sensor_cover_2_r'/>
+    <origin xyz="0 0.01 -0.05" rpy="0 0 0"/>
+  </joint>
+  <link name="j2s7s300_link_4_r">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/forearm.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/ring_small.obj"/>
+      </geometry>
+      <material>
+        <color rgba="0.627451 0.627451 0.627451 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/forearm.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.625"/>
+      <origin xyz="0 0.119 -0.0086"/>
+      <inertia ixx="0.00142022431908" ixy="0" ixz="0" iyy="0.000304335" iyz="0" izz="0.00142022431908"/>
+    </inertial>
+  </link>
+  <joint name='j2s7s300_link_4_r_floatie_2.0a_on_link_4_r' type='fixed'>
+    <parent link='j2s7s300_link_4_r'/>
+    <child link='floatie_2.0a_on_link_4_r'/>
+    <origin xyz="0 0.085 -0.01" rpy="1.6 0 0"/>
+  </joint>
+  <link name='floatie_2.0a_on_link_4_r'>
+    <!-- Add two floatie 2.0s on Right Link 4. -->
+    <inertial>
+      <mass value="0.065"/>
+    </inertial>
+    <visual name='floatie_2.0a_on_link_4_r_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_2.0a_on_link_4_r_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name='j2s7s300_link_4_r_floatie_2.0b_on_link_4_r' type='fixed'>
+    <parent link='j2s7s300_link_4_r'/>
+    <child link='floatie_2.0b_on_link_4_r'/>
+    <origin xyz="0 0.16 -0.01" rpy="1.6 0 0"/>
+  </joint>
+  <link name='floatie_2.0b_on_link_4_r'>
+    <inertial>
+      <mass value="0.065"/>
+    </inertial>
+    <visual name='floatie_2.0b_on_link_4_r_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_2.0b_on_link_4_r_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.055" radius="0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j2s7s300_joint_4_r" type="revolute">
+    <parent link="j2s7s300_link_3_r"/>
+    <child link="j2s7s300_link_4_r"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30.5" lower="0.523598775598" upper="5.75958653158" velocity="0.63"/>
+    <origin rpy="1.57079632679 0 3.14159265359" xyz="0 0 -0.205"/>
+    <dynamics damping="18.0" friction="0.0"/>
+  </joint>
+
+  <link name="j2s7s300_link_5_r">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/wrist_spherical_1.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/ring_small.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/wrist_spherical_1.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.485"/>
+      <origin xyz="0 0.0028848942 -0.063"/>
+      <inertia ixx="0.0004321316048" ixy="0" ixz="0" iyy="0.0004321316048" iyz="0" izz="9.26e-05"/>
+    </inertial>
+  </link>
+  <joint name="j2s7s300_joint_5_r" type="revolute">
+    <parent link="j2s7s300_link_4_r"/>
+    <child link="j2s7s300_link_5_r"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="6.8" lower="0.18" upper="6.10" velocity="0.85"/>
+    <origin rpy="-1.57079632679 0 3.14159265359" xyz="0 0.2073 -0.0114"/>
+    <dynamics damping="3.0" friction="0.0"/>
+  </joint>
+
+  <link name="j2s7s300_link_6_r">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/wrist_spherical_2.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/ring_small.obj"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/wrist_spherical_2.obj"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.486"/>
+      <origin xyz="0 0.063 -0.0028562765"/>
+      <inertia ixx="0.0004321316048" ixy="0" ixz="0" iyy="9.26e-05" iyz="0" izz="0.0004321316048"/>
+    </inertial>
+  </link>
+  <joint name="j2s7s300_joint_floatie_1.0_partA_r" type="fixed">
+    <parent link="j2s7s300_link_6_r"/>
+    <child link="floatie_1.0_on_link_6_r"/>
+    <origin rpy="1.55 0 0" xyz="0 0.055 0.005"/>
+  </joint>
+  <link name="floatie_1.0_on_link_6_r">
+    <inertial>
+      <mass value="0.025"/>
+    </inertial>
+    <visual name='floatie_1.0_on_link_6_r_visual'>
+      <origin rpy="0 0 0" xyz="0 0 0.02"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.065"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_1.0_on_link_6_r_visual'>
+      <origin rpy="0 0 0" xyz="0 0 0.02"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.065"/>
+      </geometry>
+    </collision>
+  </link>
+ <joint name="j2s7s300_joint_floatie_1.0_partB_r" type="fixed">
+    <parent link="j2s7s300_link_5_r"/>
+    <child link="floatie_1.0_on_link_5_r"/>
+    <origin rpy="0 0 0" xyz="0 0.005 -0.04"/>
+  </joint>
+ <link name="floatie_1.0_on_link_5_r">
+    <inertial>
+      <mass value="0.025"/>
+    </inertial>
+    <visual name='floatie_1.0_on_link_5_r_visual'>
+      <origin rpy="0 0 0" xyz="0 0 -0.04"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.065"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision name='floatie_1.0_on_link_5_r_collision'>
+      <origin rpy="0 0 0" xyz="0 0 -0.04"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.065"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j2s7s300_joint_6_r" type="revolute">
+    <parent link="j2s7s300_link_5_r"/>
+    <child link="j2s7s300_link_6_r"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="6.8" lower="0.523598775598" upper="5.75958653158" velocity="0.85"/>
+    <origin rpy="1.57079632679 0 3.14159265359" xyz="0 0 -0.10375"/>
+    <dynamics damping="3.0" friction="0.0"/>
+  </joint>
+
+  <link name="j2s7s300_link_7_r">
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+    </inertial>
+  </link>
+  <joint name="j2s7s300_joint_7_r" type="revolute">
+    <parent link="j2s7s300_link_6_r"/>
+    <child link="j2s7s300_link_7_r"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="6.8" lower="0.18" upper="6.10" velocity="0.85"/>
+    <origin rpy="-1.57079632679 0 3.14159265359" xyz="0 0.10375 0"/>
+    <dynamics damping="3.0" friction="0.0"/>
+  </joint>
+
+  <link name="paw_mount_link_r">
+    <!-- Inertial values are approximate and calculated for a
+         cylinder of radius 35mm, height 110mm and mass 270gms -->
+    <inertial>
+      <mass value="0.27"/>
+      <origin xyz="-0.05 0.07 0" rpy="1.5707 0 0.85"/>
+      <inertia ixx="0.000355" ixy="0" ixz="0" iyy="0.000355" iyz="0" izz="0.000165"/>
+    </inertial>
+    <!-- Add the mount mesh for visual and collision. -->
+    <visual>
+      <geometry>
+        <mesh filename="meshes/MA-027-AY-0006_mount.obj"/>
+      </geometry>
+      <material name="violet"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/MA-027-AY-0006_mount.obj"/>
+      </geometry>
+    </collision>
+    <!-- Add the frame for visual and collision. -->
+    <visual>
+      <geometry>
+        <mesh filename="meshes/MA-027-AY-0006_pawframe.obj"/>
+      </geometry>
+      <material name="violet"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/MA-027-AY-0006_pawframe.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="paw_bubble_link_r">
+    <!-- Add the bubble mesh for visual and collision. -->
+    <visual>
+      <geometry>
+        <mesh filename="meshes/MA-027-AY-0006_bubble35mm.obj"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/MA-027-AY-0006_bubble35mm.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name='paw_joint_r' type='fixed'>
+    <parent link='j2s7s300_link_7_r'/>
+    <child link='paw_mount_link_r'/>
+    <origin rpy="-1.5705 0 2.0944" xyz="0 0 0"/>
+  </joint>
+  <joint name='paw_bubble_joint_r' type='fixed'>
+    <parent link='paw_mount_link_r'/>
+    <child link='paw_bubble_link_r'/>
+  </joint>
+  <link name="bubble_center_r">
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+    </inertial>
+  </link>
+  <joint name='dummy_joint_r' type='fixed'>
+    <parent link='paw_mount_link_r'/>
+    <child link='bubble_center_r'/>
+    <origin rpy="0 0 0" xyz="-0.1295 0.0831 0.0017"/>
+  </joint>
+
+  <!-- materials, only for visuals -->
+  <material name="black">
+    <color rgba="0.2 0.2 0.2 1"/>
+  </material>
+
+  <material name="gray">
+    <color rgba="0.8 0.8 0.8 1"/>
+  </material>
+
+  <material name="violet">
+    <color rgba="0.76 0.22 0.67 1"/>
+  </material>
+
+  <material name="white">
+    <color rgba="0.98 0.98 0.98 1"/>
+  </material>
+
+</robot>

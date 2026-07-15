@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+This is a large cardboard box with a lid, i.e., box_with_lid_large at https://docs.google.com/spreadsheets/d/1c4GgigOaQ3TiYDhN7i2oLno96RojI6JiBSLweFdsCr8/edit#gid=0.
+-->
+<robot name="large_cardboard_box_with_lid">
+  <link name="box">
+    <!-- The model for a solid box of uniform density. -->
+    <inertial>
+      <mass value="0.45"/>
+      <inertia ixx="0.0062637435" ixy="0" ixz="0" iyy="0.008846555999999998" iyz="0" izz="0.010024687499999999"/>
+    </inertial>
+    <visual name="box_visual">
+      <geometry>
+        <box size="0.41 0.315 0.2604"/>
+      </geometry>
+    </visual>
+    <collision name="box_collision">
+      <geometry>
+        <box size="0.41 0.315 0.2604"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>

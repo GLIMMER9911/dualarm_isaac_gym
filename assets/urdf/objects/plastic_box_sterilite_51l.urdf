@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--
+This is a large plastic box with a lid, Sterilite 51 liters.
+-->
+<robot name="plastic_box_sterilite_51l">
+  <link name="box">
+    <!-- This is a model of a transparent plastic box with a lid:
+    Sterilite 51 liters -->
+    <inertial>
+      <mass value="1.8"/>
+      <inertia ixx="0.03974" ixy="0" ixz="0" iyy="0.06456" iyz="0" izz="0.07163"/>
+    </inertial>
+    <visual name="box_visual_lid">
+      <origin xyz="0 0 0.14" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.567 0.395 0.025"/>
+      </geometry>
+    </visual>
+    <collision name="collision_lid">
+      <origin xyz="0 0 0.14" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.567 0.395 0.025"/>
+      </geometry>
+    </collision>
+
+    <visual name="box_visual_middle_left">
+      <origin xyz="0 0.115 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.52 0.11 0.33"/>
+      </geometry>
+    </visual>
+    <visual name="box_visual_middle_center">
+      <geometry>
+        <box size="0.48 0.12 0.33"/>
+      </geometry>
+    </visual>
+    <visual name="box_visual_middle_right">
+      <origin xyz="0 -0.115 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.52 0.11 0.33"/>
+      </geometry>
+    </visual>
+
+    <collision name="collision_middle_left">
+      <origin xyz="0 0.115 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.52 0.11 0.33"/>
+      </geometry>
+    </collision>
+    <collision name="collision_middle_center">
+      <geometry>
+        <box size="0.48 0.12 0.33"/>
+      </geometry>
+    </collision>
+    <collision name="collision_middle_right">
+      <origin xyz="0 -0.115 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.52 0.11 0.33"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>

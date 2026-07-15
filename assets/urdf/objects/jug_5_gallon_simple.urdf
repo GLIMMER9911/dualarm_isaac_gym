@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!-- This is a model of an empty 5-gallon water jug. -->
+<robot name="jug_5_gallon">
+  <!-- The moment of inertia is for a solid cylinder  -->
+  <!-- with uniform density. -->
+  <link name="jug">
+    <inertial>
+      <mass value="0.8"/>
+      <origin rpy="0 0 0" xyz="0 0 -0.03"/>
+      <inertia ixx="0.014" ixy="0" ixz="0" iyy="0.014" iyz="0" izz="0.006"/>
+    </inertial>
+
+    <visual name="jug_visual">
+      <geometry>
+        <mesh filename="meshes/jug_water_5_gallon.obj"/>
+      </geometry>
+    </visual>
+
+    <visual name="jug_contact_visual">
+      <origin rpy="0 0 0" xyz="0 0 -0.03"/>
+      <geometry>
+        <cylinder radius="0.135" length="0.4"/>
+      </geometry>
+      <material>
+        <color rgba="0.4 0.6 0.8 0.9"/>
+      </material>
+    </visual>
+    <collision name="jug_collision">
+      <origin rpy="0 0 0" xyz="0 0 -0.03"/>
+      <geometry>
+        <cylinder radius="0.135" length="0.4"/>
+      </geometry>
+    </collision>
+
+    <visual name="jug_lid_contact_visual">
+      <origin rpy="0 0 0" xyz="0 0 0.201"/>
+      <geometry>
+        <cylinder radius="0.027" length="0.065"/>
+      </geometry>
+      <material>
+        <color rgba="0.4 0.6 0.8 0.9"/>
+      </material>
+    </visual>
+    <collision name="jug_lid_collision">
+      <origin rpy="0 0 0" xyz="0 0 0.201"/>
+      <geometry>
+        <cylinder radius="0.027" length="0.065"/>
+      </geometry>
+    </collision>
+
+  </link>
+</robot>

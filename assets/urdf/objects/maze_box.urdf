@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<!--
+This is a cube with a side length of 0.15 meters.
+The face directions are defined in terms of outward surface normals.
+-->
+<robot name="cube">
+  <link name="box_base">
+    <inertial>
+      <density value="300.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <box size="0.09 0.09 0.15"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <box size="0.09 0.09 0.15"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- back face, pointing in the +x direction -->
+  <link name="box_face_xp">
+    <inertial>
+      <density value="300.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.06 0 0"/>
+      <geometry>
+        <box size="0.03 0.12 0.15"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin xyz="0.06 0 0"/>
+      <geometry>
+        <box size="0.03 0.12 0.15"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name='joint_xp' type='fixed'>
+    <parent link='box_base'/>
+    <child link='box_face_xp'/>
+  </joint>
+  <!-- back face, pointing in the -x direction -->
+  <link name="box_face_xn">
+    <inertial>
+      <density value="300.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.06 0 0"/>
+      <geometry>
+        <box size="0.03 0.12 0.15"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.06 0 0"/>
+      <geometry>
+        <box size="0.03 0.12 0.15"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name='joint_xn' type='fixed'>
+    <parent link='box_base'/>
+    <child link='box_face_xn'/>
+  </joint>
+  <!-- left face, pointing in the +y direction -->
+  <link name="box_face_yp">
+    <inertial>
+      <density value="300.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0.06 0"/>
+      <geometry>
+        <box size="0.12 0.03 0.15"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.06 0"/>
+      <geometry>
+        <box size="0.12 0.03 0.15"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name='joint_yp' type='fixed'>
+    <parent link='box_base'/>
+    <child link='box_face_yp'/>
+  </joint>
+  <!-- right face, pointing in the -y direction -->
+  <link name="box_face_yn">
+    <inertial>
+      <density value="300.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 -0.06 0"/>
+      <geometry>
+        <box size="0.12 0.03 0.15"/>
+      </geometry>
+      <material name="yellow"/>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.06 0"/>
+      <geometry>
+        <box size="0.12 0.03 0.15"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name='joint_yn' type='fixed'>
+    <parent link='box_base'/>
+    <child link='box_face_yn'/>
+  </joint>
+
+  <!-- define the colors for visual geoms -->
+  <material name="red">
+    <color rgba="1.0 0.0 0.0 0.9"/>
+  </material>
+  <material name="green">
+    <color rgba="0.0 1.0 0.0 0.9"/>
+  </material>
+  <material name="blue">
+    <color rgba="0.0 0.0 1.0 0.9"/>
+  </material>
+  <material name="yellow">
+    <color rgba="1.0 1.0 0.0 0.9"/>
+  </material>
+  <material name="gray">
+    <color rgba="0.8 0.8 0.8 0.5"/>
+  </material>
+</robot>

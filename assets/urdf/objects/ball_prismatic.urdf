@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<robot name="ball">
+  <link name="base"/>
+  <link name="ball">
+    <visual>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.2"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.2"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+  <joint name="joint" type="prismatic">
+    <parent link="base"/>
+    <child link="ball"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="100" lower="-10.0" upper="10.0" velocity="100.0"/>
+  </joint>
+</robot>

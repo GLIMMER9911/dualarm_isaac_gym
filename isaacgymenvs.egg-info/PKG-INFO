@@ -1,0 +1,23 @@
+Metadata-Version: 2.1
+Name: isaacgymenvs
+Version: 1.3.4
+Summary: Benchmark environments for high-speed robot learning in NVIDIA IsaacGym.
+Author: NVIDIA
+Keywords: robotics,reinforcement learning,isaacgym,rl
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: POSIX :: Linux
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Natural Language :: English
+Requires-Python: >=3.7
+Requires-Dist: gym==0.23.1
+Requires-Dist: torch>=2.1.0
+Requires-Dist: omegaconf>=2.1.1
+Requires-Dist: termcolor
+Requires-Dist: hydra-core>=1.1
+Requires-Dist: rl-games==1.6.0
+Requires-Dist: matplotlib
+Requires-Dist: pandas
+Requires-Dist: dtw-python
+Requires-Dist: pyvirtualdisplay
+Requires-Dist: icecream
+Requires-Dist: pickle5; python_version < "3.8"

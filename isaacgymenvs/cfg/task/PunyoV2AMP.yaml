@@ -1,0 +1,1031 @@
+# used to create the object
+name: PunyoV2AMP
+
+physics_engine: ${..physics_engine}
+
+# if given, will override the device setting in gym.
+env:
+  numEnvs: ${resolve_default:4096,${...num_envs}}
+  envSpacing: 1.5
+  cameraFollow: True
+  enableDebugVis: False
+
+  stateInit: "Default"
+  collisionMode: 0  # 0: disable arm, floatie, torso self-collisions  # 1: disable all self-collisions, 2: allow all self-collisions (including floaties)
+  hybridInitProb: 0.5
+  numAMPObsSteps: 2
+  numActions: 14
+  actionScale: 0.9 # actions (normalized to [-1, 1]) are scaled by actionScale * jointSpeedLimit
+
+  pressureThreshold: 0.1
+  visualizeFloatiesContact: False
+  visualizeContactForces: False
+  plotTrajectories: False
+  visualizeGoal: False
+
+  asset:
+    assetRoot: "../assets"
+    assetFilePunyo: "urdf/punyo/punyo_v2.urdf"
+    motion:
+      motion_file_path: ""  # If defined, this overrides the task file path.
+      ignore_before_idx: 0  # ignore the first nth frames in the demonstration.
+      default_dt: 0.05  # uses this if the demonstration file does not have the key ["config"]["config"]["gym_timestep"]
+
+  punyo:
+    senseTorques: True
+    # Friction coefficients for specific collision geoms.
+    torsoStaticFriction: 0.8
+    torsoTorsionFriction: 0.8
+    floatieStaticFriction: 0.9
+    floatieTorsionFriction: 0.9
+    pawMountStaticFriction: 0.1
+    pawMountTorsionFriction: 0.1
+    pawBubbleStaticFriction: 1.0
+    pawBubbleTorsionFriction: 1.0
+    # Friction coefficients for the rest of the collision geoms.
+    staticFriction: 0.5
+    torsionFriction: 0.5
+    # Universal values for the other contact parameters.
+    restitution: 0.2
+    compliance: 0.0
+    # Base pose.
+    init_x: 0.0
+    init_y: 0.0
+    init_z: 0.0
+    init_q_w: 1.0
+    init_q_x: 0.0
+    init_q_y: 0.0
+    init_q_z: 0.0
+    # Values found experimentally using the lift_box trajectory CI.
+    # For Jaco Gen2 in position mode.
+    # jointStiffness: [850, 850, 850, 850, 850, 850, 850]
+    # jointDamping: [80, 80, 80, 80, 80, 80, 80]
+    # For Jaco Gen2 in velocity mode for values of
+    # kp=3, kd=0.1 in the punyo_hub_env.py in Anzu.
+    jointStiffness: [500, 500, 500, 500, 500, 500, 500]
+    jointDamping: [180, 180, 180, 180, 180, 180, 180]
+    jointSpeedLimit: [0.63, 0.63, 0.63, 0.63, 0.85, 0.85, 0.85]
+    # Link names to filter out in the collision detection.
+    noCollisionBodyNames: [
+      "j2s7s300_link_6_l", "j2s7s300_link_6_r",
+      "j2s7s300_link_5_l", "j2s7s300_link_5_r",
+      "j2s7s300_link_3_l", "j2s7s300_link_3_r",
+      "j2s7s300_link_4_l", "j2s7s300_link_4_r",
+      "j2s7s300_link_1_l", "j2s7s300_link_1_r",
+      "j2s7s300_link_base_l", "j2s7s300_link_base_r"
+    ]
+    # Link names for the floaties. The order is important: start from the left
+    # arm base to the end effector and then the right arm base to the end
+    # effector. Currently, there are 8 floaties per arm where the floatie 1.0
+    # around the wrist is segmented into two parts.
+    floatieLinkNames: [
+        "floatie_2.0a_on_link_2_l",
+        "floatie_2.0b_on_link_2_l",
+        "floatie_2.0a_on_link_3_l",
+        "floatie_2.0b_on_link_3_l",
+        "floatie_2.0a_on_link_4_l",
+        "floatie_2.0b_on_link_4_l",
+        "floatie_1.0_on_link_6_l",
+        "floatie_1.0_on_link_5_l",
+        "floatie_2.0a_on_link_2_r",
+        "floatie_2.0b_on_link_2_r",
+        "floatie_2.0a_on_link_3_r",
+        "floatie_2.0b_on_link_3_r",
+        "floatie_2.0a_on_link_4_r",
+        "floatie_2.0b_on_link_4_r",
+        "floatie_1.0_on_link_6_r",
+        "floatie_1.0_on_link_5_r",
+    ]
+
+  object:
+    staticFriction: 0.5
+    torsionFriction: 0.5
+    restitution: 0.2
+    compliance: 0
+    # The following parameters are for the box's initial pose randomization, and they specify the allowable moving range of the box.
+    xRange: 0.05
+    yRange: 0.05
+    yawRange: 0.05
+
+  table:
+    staticFriction: 0.3
+    torsionFriction: 0.0
+    restitution: 0.0
+    init_x: 1
+    init_y: 0.0
+    init_z: 0.0
+    init_q_w: 1.0
+    init_q_x: 0.0
+    init_q_y: 0.0
+    init_q_z: 0.0
+
+  shelf:
+    staticFriction: 0.3
+    torsionFriction: 0.0
+    restitution: 0.0
+    init_x: 1.0
+    init_y: 0.0
+    init_z: 0.0
+    init_q_w: 1.0
+    init_q_x: 0.0
+    init_q_y: 0.0
+    init_q_z: 0.0
+
+sim:
+  dt: 0.0166 # 1/60 s
+  substeps: 2
+  up_axis: "z"
+  use_gpu_pipeline: ${eq:${...pipeline},"gpu"}
+  gravity: [0.0, 0.0, -9.81]
+  physx:
+    num_threads: ${....num_threads}
+    solver_type: ${....solver_type}
+    use_gpu: ${contains:"cuda",${....sim_device}} # set to False to run on CPU
+    num_position_iterations: 8
+    num_velocity_iterations: 1
+    contact_offset: 0.005
+    rest_offset: 0.0
+    bounce_threshold_velocity: 0.2
+    max_depenetration_velocity: 1000.0
+    default_buffer_size_multiplier: 5.0
+    max_gpu_contact_pairs: 8388608 # 8*1024*1024
+    num_subscenes: ${....num_subscenes}
+    contact_collection: 1 # 0: CC_NEVER (don't collect contact info), 1: CC_LAST_SUBSTEP (collect only contacts on last substep), 2: CC_ALL_SUBSTEPS (broken - do not use!)
+
+task:
+  # Options:
+  # - task_pour_jug
+  # - task_pour_jug_goal_conditioned
+  # - task_flip_jug
+  # - task_lift_jug
+  # - task_over_shoulder_lift_jug
+  # - task_paw_lift_sterilite
+  # - task_hug_lift_sterilite
+  # - task_underarm_hug_lift_sterilite
+  # - task_over_shoulder_lift_sterilite
+  # - task_pivot
+  # - task_lift
+  # - task_lift_cube
+  # - task_wrap_and_lift
+  # - task_shelf
+  task_type: "task_over_shoulder_lift_jug"
+
+  # ampObservation options:
+  # robot_dof, robot_vel, box_pose, ee_pose, ee_binary_contact,
+  # floatie_binary_contact
+
+  # policyObservation options:
+  # robot_dof, robot_vel, box_pose, ee_pose, ee_binary_contact,
+  # floatie_binary_contact, env_time, previous_actions, target_pos
+
+  task_pour_jug:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 500
+    motion_file_path: "data/demo/jug/water_plant_20240123_13_37"
+    assetFileBox: "urdf/objects/jug_5_gallon_onshape.urdf"
+    keypoints: # xyz in manipuland frame
+      - [0.13, 0, -0.23]    # bottom front middle
+      - [0, 0.13, -0.23]    # bottom left middle
+      - [0, -0.13, -0.23]   # bottom right middle
+      - [-0.13, 0, -0.23]   # bottom back middle
+      - [0, 0, 0.2]         # lid center
+    # manipuland default poses.
+    default_x: 0.35
+    default_y: 0.0
+    default_z: 0.25
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 0
+    # manipuland goal poses.
+    target_x: 0.316
+    target_y: 0.192
+    target_z: 0.385
+    target_roll: 1.92
+    target_pitch: -0.54
+    target_yaw: 0.935
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.2  # in rad.
+    success_vel: 0.15  # in m/s
+    success_vel_rot: 0.3  # in rad/s
+    max_cumulative_successes: 60
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.1
+    workspace_upper_limit_y: 0.4
+    workspace_lower_limit_y: -0.4
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 0.1
+    box_lin_vel_penalty_w: 0.0001
+    box_rot_vel_penalty_w: 0.0001
+    # robot reward weights
+    action_penalty_w: 0.00001
+    torque_penalty_w: 0.00001
+    action_diff_penalty_w: 0.00001
+    punyo_contact_penalty_w: 0.0
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 1.0
+
+  task_pour_jug_goal_conditioned:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions, target_pos]
+    episodeLength: 600
+    motion_file_path: "data/demo/jug/water_plant_20240123_13_37"
+    assetFileBox: "urdf/objects/jug_5_gallon_onshape.urdf"
+    keypoints: # xyz in manipuland frame
+      - [0.13, 0, -0.23]    # bottom front middle
+      - [0, 0.13, -0.23]    # bottom left middle
+      - [0, -0.13, -0.23]   # bottom right middle
+      - [-0.13, 0, -0.23]   # bottom back middle
+      - [0, 0, 0.2]         # lid center
+    # manipuland default poses.
+    default_x: 0.35
+    default_y: 0.0
+    default_z: 0.25
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 0
+    # manipuland goal poses.
+    target_x: 0.25
+    target_y: 0.1
+    target_z: 0.35
+    target_roll: 2.094
+    target_pitch: 0.0
+    target_yaw: 0.0
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.5  # in rad.
+    success_vel: 0.15  # in m/s
+    success_vel_rot: 0.3  # in rad/s
+    max_cumulative_successes: 60
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.1
+    workspace_upper_limit_y: 0.4
+    workspace_lower_limit_y: -0.4
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 0.1
+    box_lin_vel_penalty_w: 0.0001
+    box_rot_vel_penalty_w: 0.0001
+    # robot reward weights
+    action_penalty_w: 0.00001
+    torque_penalty_w: 0.00001
+    action_diff_penalty_w: 0.00001
+    punyo_contact_penalty_w: 0.0
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 1.0
+
+  task_flip_jug:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    criticObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 750
+    motion_file_path: "data/demo/gqdp_jug/jug_flip180_20240104_dt50ms"
+    assetFileBox: "urdf/objects/jug_5_gallon_onshape.urdf"
+    keypoints: # xyz in manipuland frame
+      - [0.13, 0, -0.23]    # bottom front middle
+      - [0, 0.13, -0.23]    # bottom left middle
+      - [0, -0.13, -0.23]   # bottom right middle
+      - [-0.13, 0, -0.23]   # bottom back middle
+      - [0, 0, 0.2]         # lid center
+    # manipuland default poses.
+    default_x: 0.35
+    default_y: 0.0
+    default_z: 0.25
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 0
+    # manipuland goal poses.
+    target_x: 0.2
+    target_y: 0.0
+    target_z: 0.35
+    target_roll: -3.14
+    target_pitch: 0.0
+    target_yaw: 0.0
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.2  # in rad.
+    success_vel: 0.15  # in m/s
+    success_vel_rot: 0.3  # in rad/s
+    max_cumulative_successes: 60
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.1
+    workspace_upper_limit_y: 0.3
+    workspace_lower_limit_y: -0.3
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 0.1
+    box_lin_vel_penalty_w: 0.0001
+    box_rot_vel_penalty_w: 0.0001
+    # robot reward weights
+    action_penalty_w: 0.00001
+    torque_penalty_w: 0.00001
+    action_diff_penalty_w: 0.00001
+    punyo_contact_penalty_w: 0.0
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 1.0
+
+  task_lift_jug:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 500
+    motion_file_path: "data/demo/jug/lift_20240123_13_35"
+    assetFileBox: "urdf/objects/jug_5_gallon_onshape.urdf"
+    keypoints: # xyz in manipuland frame
+      - [0.13, 0, -0.23]    # bottom front middle
+      - [0, 0.13, -0.23]    # bottom left middle
+      - [0, -0.13, -0.23]   # bottom right middle
+      - [-0.13, 0, -0.23]   # bottom back middle
+      - [0, 0, 0.2]         # lid center
+    # manipuland default poses.
+    default_x: 0.35
+    default_y: 0.0
+    default_z: 0.25
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 0
+    # manipuland goal poses.
+    target_x: 0.2
+    target_y: 0.0
+    target_z: 0.335
+    target_roll: 0.0
+    target_pitch: 0.0
+    target_yaw: 0.0
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.2  # in rad.
+    success_vel: 0.15  # in m/s
+    success_vel_rot: 0.3  # in rad/s
+    max_cumulative_successes: 60
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.1
+    workspace_upper_limit_y: 0.3
+    workspace_lower_limit_y: -0.3
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 0.1
+    box_lin_vel_penalty_w: 0.0001
+    box_rot_vel_penalty_w: 0.0001
+    # robot reward weights
+    action_penalty_w: 0.00001
+    torque_penalty_w: 0.00001
+    action_diff_penalty_w: 0.00001
+    punyo_contact_penalty_w: 0.0
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 1.0
+
+  task_over_shoulder_lift_jug:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    criticObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 750
+    motion_file_path: "data/paper/task_over_shoulder_lift_jug/teleop_eigen"
+    assetFileBox: "urdf/objects/jug_5_gallon_onshape.urdf"
+    keypoints: # xyz in manipuland frame
+      - [0.13, 0, -0.23]    # bottom front middle
+      - [0, 0.13, -0.23]    # bottom left middle
+      - [0, -0.13, -0.23]   # bottom right middle
+      - [-0.13, 0, -0.23]   # bottom back middle
+      - [0, 0, 0.2]         # lid center
+    # manipuland default poses.
+    default_x: 0.35
+    default_y: 0.0
+    default_z: 0.25
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 0
+    # manipuland goal poses.
+    target_x: 0.13
+    target_y: 0.3
+    target_z: 0.64
+    target_roll: 0.0
+    target_pitch: -1.5708
+    target_yaw: 0.0
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.2  # in rad.
+    success_vel: 0.15  # in m/s
+    success_vel_rot: 0.3  # in rad/s
+    max_cumulative_successes: 60
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.05
+    workspace_upper_limit_y: 0.4
+    workspace_lower_limit_y: -0.4
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 0.1
+    box_lin_vel_penalty_w: 0.0001
+    box_rot_vel_penalty_w: 0.0001
+    # robot reward weights
+    action_penalty_w: 0.00001
+    torque_penalty_w: 0.00001
+    action_diff_penalty_w: 0.00001
+    punyo_contact_penalty_w: 0.0
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 1.0
+
+  task_paw_lift_sterilite:
+    ampObservation: [robot_dof, ee_pose]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    criticObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 250
+    motion_file_path: "data/demo/sterilite_box/lift_paws_kpoint"
+    assetFileBox: "urdf/objects/plastic_box_sterilite_51l.urdf"
+    keypoints: # xyz in manipuland frame
+      - [0.26, 0.17, 0.165]  # top back right corner
+      - [-0.26, -0.17, 0.165]  # top front left corner
+      - [0.26, -0.17, -0.165]  # bottom back left corner
+      - [-0.26, 0.17, -0.165]  # bottom front right corner
+    # manipuland default poses.
+    default_x: 0.5
+    default_y: 0.0
+    default_z: 0.17
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 1.57
+    # manipuland goal poses.
+    target_x: 0.5
+    target_y: 0.0
+    target_z: 0.3
+    target_roll: 0.0
+    target_pitch: 0.0
+    target_yaw: 1.57
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.2  # in rad.
+    success_vel: 0.15  # in m/s
+    success_vel_rot: 0.3  # in rad/s
+    max_cumulative_successes: 250
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.3
+    workspace_upper_limit_y: 0.3
+    workspace_lower_limit_y: -0.3
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 0.1
+    box_lin_vel_penalty_w: 0.0001
+    box_rot_vel_penalty_w: 0.0001
+    # robot reward weights
+    action_penalty_w: 0.00001
+    torque_penalty_w: 0.00001
+    action_diff_penalty_w: 0.00001
+    punyo_contact_penalty_w: 0.0
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 1.0
+
+  task_hug_lift_sterilite:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    criticObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 500
+    motion_file_path: "data/demo/sterilite_box/lift_hug"
+    assetFileBox: "urdf/objects/plastic_box_sterilite_51l.urdf"
+    keypoints: # xyz in manipuland frame
+      - [0.26, 0.17, 0.165]  # top back right corner
+      - [-0.26, -0.17, 0.165]  # top front left corner
+      - [0.26, -0.17, -0.165]  # bottom back left corner
+      - [-0.26, 0.17, -0.165]  # bottom front right corner
+    # manipuland default poses.
+    default_x: 0.5
+    default_y: 0.0
+    default_z: 0.17
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 1.57
+    # manipuland goal poses.
+    target_x: 0.285
+    target_y: 0.0
+    target_z: 0.3
+    target_roll: 0.0
+    target_pitch: 0.0
+    target_yaw: 1.57
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.2  # in rad.
+    success_vel: 0.15  # in m/s
+    success_vel_rot: 0.3  # in rad/s
+    max_cumulative_successes: 60
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.2
+    workspace_upper_limit_y: 0.3
+    workspace_lower_limit_y: -0.3
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 0.1
+    box_lin_vel_penalty_w: 0.0001
+    box_rot_vel_penalty_w: 0.0001
+    # robot reward weights
+    action_penalty_w: 0.00001
+    torque_penalty_w: 0.00001
+    action_diff_penalty_w: 0.00001
+    punyo_contact_penalty_w: 0.0
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 1.0
+
+  task_underarm_hug_lift_sterilite:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 700
+    motion_file_path: "data/demo/sterilite_box/lift_hug_under_arm_kpoint"
+    assetFileBox: "urdf/objects/plastic_box_sterilite_51l.urdf"
+    keypoints: # xyz in manipuland frame
+      - [0.26, 0.17, 0.165]  # top back right corner
+      - [-0.26, -0.17, 0.165]  # top front left corner
+      - [0.26, -0.17, -0.165]  # bottom back left corner
+      - [-0.26, 0.17, -0.165]  # bottom front right corner
+    # manipuland default poses.
+    default_x: 0.5
+    default_y: 0.0
+    default_z: 0.17
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 1.57
+    # manipuland goal poses.
+    target_x: 0.285
+    target_y: 0.0
+    target_z: 0.3
+    target_yaw: 1.57
+    target_pitch: 0.0
+    target_roll: 0.0
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.2  # in rad.
+    success_vel: 0.15  # in m/s
+    success_vel_rot: 0.3  # in rad/s
+    max_cumulative_successes: 60
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.2
+    workspace_upper_limit_y: 0.3
+    workspace_lower_limit_y: -0.3
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 0.1
+    box_lin_vel_penalty_w: 0.0001
+    box_rot_vel_penalty_w: 0.0001
+    # robot reward weights
+    action_penalty_w: 0.00001
+    torque_penalty_w: 0.00001
+    action_diff_penalty_w: 0.00001
+    punyo_contact_penalty_w: 0.0
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 1.0
+
+  task_over_shoulder_lift_sterilite:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 750
+    motion_file_path: "data/demo/sterilite_box/over_shoulder_lift_hydro"
+    assetFileBox: "urdf/objects/plastic_box_sterilite_51l.urdf"
+    keypoints: # xyz in manipuland frame
+      - [0.26, 0.17, 0.165]  # top back right corner
+      - [-0.26, -0.17, 0.165]  # top front left corner
+      - [0.26, -0.17, -0.165]  # bottom back left corner
+      - [-0.26, 0.17, -0.165]  # bottom front right corner
+    # manipuland default poses.
+    default_x: 0.45
+    default_y: 0.0
+    default_z: 0.17
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 0.0
+    # manipuland goal poses.
+    target_x: 0.25
+    target_y: -0.33
+    target_z: 0.61
+    target_roll: 1.87
+    target_pitch: -0.29
+    target_yaw: 3.14
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.2  # in rad.
+    success_vel: 0.15  # in m/s
+    success_vel_rot: 0.3  # in rad/s
+    max_cumulative_successes: 60
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.15
+    workspace_upper_limit_y: 0.4
+    workspace_lower_limit_y: -0.4
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 0.1
+    box_lin_vel_penalty_w: 0.0001
+    box_rot_vel_penalty_w: 0.0001
+    # robot reward weights
+    action_penalty_w: 0.00001
+    torque_penalty_w: 0.00001
+    action_diff_penalty_w: 0.00001
+    punyo_contact_penalty_w: 0.0
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 1.0
+
+  task_pivot:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 250
+    assetFileBox: "urdf/objects/box_with_lid_large.urdf"
+    keypoints: # xyz in manipuland frame
+      - [0.205, 0.1775, 0.1302]  # top back right corner
+      - [-0.205, -0.1775, 0.1302]  # top front left corner
+      - [0.205, -0.1775, -0.1302]  # bottom back left corner
+      - [-0.205, 0.1775, -0.1302]  # bottom front right corner
+    # manipuland default poses.
+    default_x: 0.35
+    default_y: 0.0
+    default_z: 0.131
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 0.0
+    # manipuland goal poses.
+    target_x: 0.15
+    target_y: 0.0
+    target_z: 0.4
+    target_roll: 0.0
+    target_pitch: -1.57
+    target_yaw: 0.0
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05
+    goal_rot_tolerance : 0.2
+    success_vel: 0.25
+    success_vel_rot: 0.7
+    max_cumulative_successes: 10
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.0
+    workspace_upper_limit_y: 0.5
+    workspace_lower_limit_y: -0.5
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 0.1
+    box_lin_vel_penalty_w: 0.0002
+    box_rot_vel_penalty_w: 0.0002
+    # robot reward weights
+    action_penalty_w: 0.001
+    torque_penalty_w: 0.0001
+    action_diff_penalty_w: 0.0
+    punyo_contact_penalty_w: 0.0001
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 0.1
+
+  task_lift:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 250
+    assetFileBox: "urdf/objects/box_with_lid_large.urdf"
+    keypoints: # xyz in manipuland frame
+      - [0.205, 0.1775, 0.1302]  # top back right corner
+      - [-0.205, -0.1775, 0.1302]  # top front left corner
+      - [0.205, -0.1775, -0.1302]  # bottom back left corner
+      - [-0.205, 0.1775, -0.1302]  # bottom front right corner
+    # manipuland default poses.
+    default_x: 0.6
+    default_y: 0.0
+    default_z: 0.131
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 0.0
+    # manipuland goal poses.
+    target_x: 0.6
+    target_y: 0.0
+    target_z: 0.45
+    target_roll: 0.0
+    target_pitch: 0.0
+    target_yaw: 0.0
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.1  # in rad.
+    success_vel: 0.15  # in m/s
+    success_vel_rot: 0.7  # in rad/s
+    max_cumulative_successes: 10
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.3
+    workspace_upper_limit_y: 0.3
+    workspace_lower_limit_y: -0.3
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 1.0
+    box_lin_vel_penalty_w: 0.0001
+    box_rot_vel_penalty_w: 0.001
+    # robot reward weights
+    action_penalty_w: 0.0001
+    torque_penalty_w: 0.0001
+    action_diff_penalty_w: 0.0001
+    punyo_contact_penalty_w: 0.0001
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 0.1
+
+  task_lift_cube:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 250
+    assetFileBox: "urdf/objects/cube.urdf"
+    motion_file_path: "data/paper/task_lift_cube/teleop_eigen"
+    keypoints: # xyz in manipuland frame
+      - [0.075, 0.075, 0.075]  # top back right corner
+      - [-0.075, -0.075, 0.075]  # top front left corner
+      - [0.075, -0.075, -0.075]  # bottom back left corner
+      - [-0.075, 0.075, -0.075]  # bottom front right corner
+    # manipuland default poses.
+    default_x: 0.65
+    default_y: 0.0
+    default_z: 0.075
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 0.0
+    # manipuland goal poses.
+    target_x: 0.65
+    target_y: 0.0
+    target_z: 0.4
+    target_roll: 0.0
+    target_pitch: 0.0
+    target_yaw: 0.0
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.2  # in rad.
+    success_vel: 0.15  # in m/s
+    success_vel_rot: 0.4
+    max_cumulative_successes: 10
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.3
+    workspace_upper_limit_y: 0.3
+    workspace_lower_limit_y: -0.3
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 0.1
+    box_lin_vel_penalty_w: 0.0001
+    box_rot_vel_penalty_w: 0.0001
+    # robot reward weights
+    action_penalty_w: 0.00001
+    torque_penalty_w: 0.00001
+    action_diff_penalty_w: 0.00001
+    punyo_contact_penalty_w: 0.0
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 0.1
+
+  task_wrap_and_lift:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 250
+    assetFileBox: "urdf/objects/box_with_lid_large.urdf"
+    motion_file_path: "data/paper/task_wrap_and_lift/gqdp"
+    keypoints: # xyz in manipuland frame
+      - [0.205, 0.1775, 0.1302]  # top back right corner
+      - [-0.205, -0.1775, 0.1302]  # top front left corner
+      - [0.205, -0.1775, -0.1302]  # bottom back left corner
+      - [-0.205, 0.1775, -0.1302]  # bottom front right corner
+    # manipuland default poses.
+    default_x: 0.35
+    default_y: 0.0
+    default_z: 0.131
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 0.0
+    # manipuland goal poses.
+    target_x: 0.25
+    target_y: 0.0
+    target_z: 0.35
+    target_roll: 0.0
+    target_pitch: -1.57
+    target_yaw: 0.0
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.2  # in rad.
+    success_vel: 0.15  # in m/s
+    success_vel_rot: 0.3  # in rad/s
+    max_cumulative_successes: 60
+    # limits for termination condition
+    workspace_upper_limit_x: 0.9
+    workspace_lower_limit_x: 0.0
+    workspace_upper_limit_y: 0.4
+    workspace_lower_limit_y: -0.4
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.0
+    rotation_w: 0.0
+    keypoint_w: 0.1
+    box_lin_vel_penalty_w: 0.0001
+    box_rot_vel_penalty_w: 0.0001
+    # robot reward weights
+    action_penalty_w: 0.00001
+    torque_penalty_w: 0.00001
+    action_diff_penalty_w: 0.00001
+    punyo_contact_penalty_w: 0.0
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 1.0
+
+  task_shelf:
+    ampObservation: [robot_dof]
+    policyObservation: [robot_dof, box_pose, previous_actions]
+    episodeLength: 250
+    assetFileBox: "urdf/objects/box_with_lid_large.urdf"
+    keypoints: # xyz in manipuland frame
+      - [0.205, 0.1775, 0.1302]  # top back right corner
+      - [-0.205, -0.1775, 0.1302]  # top front left corner
+      - [0.205, -0.1775, -0.1302]  # bottom back left corner
+      - [-0.205, 0.1775, -0.1302]  # bottom front right corner
+    assetFileShelf: "urdf/objects/shelf.urdf"
+    # manipuland default poses.
+    default_x: 0.5
+    default_y: 0.0
+    default_z: 0.131
+    default_roll: 0.0
+    default_pitch: 0.0
+    default_yaw: 0.0
+    # manipuland goal poses.
+    target_x: 1.0
+    target_y: 0.18
+    target_z: 0.1712
+    target_roll: 0.0
+    target_pitch: 0.0
+    target_yaw: 0.0
+    # success conditions for the manipuland
+    goal_xyz_tolerance : 0.05  # in m.
+    goal_rot_tolerance : 0.2  # in rad.
+    success_vel: 0.25  # in m/s
+    success_vel_rot: 0.7
+    max_cumulative_successes: 10
+    # limits for termination condition
+    workspace_upper_limit_x: 1.2
+    workspace_lower_limit_x: 0.3
+    workspace_upper_limit_y: 0.3
+    workspace_lower_limit_y: -0.1
+    torque_threshold: 1000  # termination condition triggered when torque is above this threshold.
+    contact_force_threshold: 10000  # termination condition triggered when a punyo contact exceeds this.
+    success_early_termination: False
+    # manipuland reward weights
+    translation_w: 0.1
+    rotation_w: 0.0
+    keypoint_w: 0.0
+    box_lin_vel_penalty_w: 0.0002
+    box_rot_vel_penalty_w: 0.0002
+    # robot reward weights
+    action_penalty_w: 0.0002
+    torque_penalty_w: 0.0
+    action_diff_penalty_w: 0.0
+    punyo_contact_penalty_w: 0.0001
+    box_contact_penalty_w: 0.0
+    # weight for success bonus
+    success_bonus_w: 0.1
+
+  curriculum: False
+  curriculum_params:
+    # Supports "fixed" and "automatic" mode.
+    # The fixed mode takes a schedule definition:
+    #   mode_params:
+    #    start_at:  80000
+    #    stop_at: 200000
+    #    frequency: 10000
+    # The automatic mode triggers when the success rate is greater
+    # than a threshold and runs for a minimum of steps defined as:
+    #   mode_params:
+    #     success_rate_threshold: 0.6
+    #     minimum_steps_per_curriculum: 10000
+    reward_weights:
+      punyo_contact_penalty_w:
+        mode: "automatic"
+        mode_params:
+          success_rate_threshold: 0.4
+          minimum_steps_per_curriculum: 30000
+        operation: "additive"
+        value: 0.0003
+        direction: "increase"
+
+  randomize_goal: False
+  goal_randomization_params:
+    # Position ranges in meters.
+    # These perturbations are additive and sampled from uniform distributions
+    # U(nominal-range, nominal+range) for x and y and
+    # U(nominal, nominal+range) for z.
+    x_range: 0.1
+    y_range: 0.2
+    z_range: 0.2  # the z perturbation is applied only upward
+
+  randomize: True
+  randomization_params:
+    frequency: 720   # Define how many simulation steps between generating new randomizations
+
+    actions:
+      range: [0., .02]
+      range_correlated: [0, .02] # range for correlated noise, refreshed with freq `frequency`
+      operation: "additive"
+      distribution: "gaussian"
+
+    sim_params:
+      gravity:
+        range: [0, 0.1]
+        operation: "additive"
+        distribution: "gaussian"
+
+    actor_params:
+      punyo:
+        rigid_shape_properties:
+          friction:
+            num_buckets: 10
+            range: [0.8, 1.2]
+            operation: "scaling"
+            distribution: "uniform"
+        dof_properties:
+        # TODO(aykut): Consider increasing the range of these params with a
+        # linear schedule as in the examples, e.g.:
+        # https://github.com/NVIDIA-Omniverse/IsaacGymEnvs/blob/aeed298638a1f7b5421b38f5f3cc2d1079b6d9c3/isaacgymenvs/cfg/task/Anymal.yaml#L146-L158
+          stiffness:
+            range: [0.8, 1.2]
+            operation: "scaling"
+            distribution: "uniform"
+          damping:
+            range: [0.8, 1.2]
+            operation: "scaling"
+            distribution: "uniform"
+
+      object:
+        scale:
+          range: [0.95, 1.05]
+          operation: "scaling"
+          distribution: "uniform"
+          setup_only: True # Property will only be randomized once before simulation is started. See Domain Randomization Documentation for more info.
+        rigid_body_properties:
+          mass:
+            range: [0.9, 1.1]
+            operation: "scaling"
+            distribution: "uniform"
+            setup_only: True # Property will only be randomized once before simulation is started. See Domain Randomization Documentation for more info.
+        rigid_shape_properties:
+          friction:
+            num_buckets: 10
+            range: [0.8, 1.2]
+            operation: "scaling"
+            distribution: "uniform"
