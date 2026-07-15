@@ -24,19 +24,16 @@
       <origin xyz="-0.173 0 0 " rpy="0 0 1.5708"/>
       <geometry>
         <mesh 
-          filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/base_mount.obj" />
+          filename="meshes/visual/base_mount.dae" />
       </geometry>
     </visual>
-
     <collision name="base_link_collision">
       <origin xyz="-0.173 0 -0.005 " rpy="0 0 0"/>
       <geometry>
         <mesh 
-          filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/base_mount.stl" 
-          scale="0.001 0.001 0.001"/>
+          filename="meshes/collision/base_mount.stl" scale="0.001 0.001 0.001" />
       </geometry>
     </collision>
-
     <inertial>
       <origin rpy="0 0 0" xyz="-0.03360 -0.00004 0.05768"/>
       <mass value="6.90882"/>
@@ -74,12 +71,12 @@
   <link name="lewis_fr3_link0">
     <visual name="lewis_fr3_link0_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link0.dae"/>
+        <mesh filename="meshes/visual/link0.dae"/>
       </geometry>
     </visual>
     <collision name="lewis_fr3_link0_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link0.stl"/>
+        <mesh filename="meshes/collision/link0.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -92,12 +89,12 @@
   <link name="lewis_fr3_link1">
     <visual name="lewis_fr3_link1_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link1.dae"/>
+        <mesh filename="meshes/visual/link1.dae"/>
       </geometry>
     </visual>
     <collision name="lewis_fr3_link1_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link1.stl"/>
+        <mesh filename="meshes/collision/link1.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -120,12 +117,12 @@
   <link name="lewis_fr3_link2">
     <visual name="lewis_fr3_link2_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link2.dae"/>
+        <mesh filename="meshes/visual/link2.dae"/>
       </geometry>
     </visual>
     <collision name="lewis_fr3_link2_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link2.stl"/>
+        <mesh filename="meshes/collision/link2.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -148,12 +145,12 @@
   <link name="lewis_fr3_link3">
     <visual name="lewis_fr3_link3_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link3.dae"/>
+        <mesh filename="meshes/visual/link3.dae"/>
       </geometry>
     </visual>
     <collision name="lewis_fr3_link3_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link3.stl"/>
+        <mesh filename="meshes/collision/link3.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -176,12 +173,12 @@
   <link name="lewis_fr3_link4">
     <visual name="lewis_fr3_link4_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link4.dae"/>
+        <mesh filename="meshes/visual/link4.dae"/>
       </geometry>
     </visual>
     <collision name="lewis_fr3_link4_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link4.stl"/>
+        <mesh filename="meshes/collision/link4.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -204,12 +201,12 @@
   <link name="lewis_fr3_link5">
     <visual name="lewis_fr3_link5_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link5.dae"/>
+        <mesh filename="meshes/visual/link5.dae"/>
       </geometry>
     </visual>
     <collision name="lewis_fr3_link5_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link5.stl"/>
+        <mesh filename="meshes/collision/link5.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -232,12 +229,12 @@
   <link name="lewis_fr3_link6">
     <visual name="lewis_fr3_link6_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link6.dae"/>
+        <mesh filename="meshes/visual/link6.dae"/>
       </geometry>
     </visual>
     <collision name="lewis_fr3_link6_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link6.stl"/>
+        <mesh filename="meshes/collision/link6.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -260,12 +257,12 @@
   <link name="lewis_fr3_link7">
     <visual name="lewis_fr3_link7_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link7.dae"/>
+        <mesh filename="meshes/visual/link7.dae"/>
       </geometry>
     </visual>
     <collision name="lewis_fr3_link7_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link7.stl"/>
+        <mesh filename="meshes/collision/link7.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -369,12 +366,12 @@
   <link name="richard_fr3_link0">
     <visual name="richard_fr3_link0_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link0.dae"/>
+        <mesh filename="meshes/visual/link0.dae"/>
       </geometry>
     </visual>
     <collision name="richard_fr3_link0_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link0.stl"/>
+        <mesh filename="meshes/collision/link0.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -387,12 +384,12 @@
   <link name="richard_fr3_link1">
     <visual name="richard_fr3_link1_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link1.dae"/>
+        <mesh filename="meshes/visual/link1.dae"/>
       </geometry>
     </visual>
     <collision name="richard_fr3_link1_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link1.stl"/>
+        <mesh filename="meshes/collision/link1.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -415,12 +412,12 @@
   <link name="richard_fr3_link2">
     <visual name="richard_fr3_link2_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link2.dae"/>
+        <mesh filename="meshes/visual/link2.dae"/>
       </geometry>
     </visual>
     <collision name="richard_fr3_link2_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link2.stl"/>
+        <mesh filename="meshes/collision/link2.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -443,12 +440,12 @@
   <link name="richard_fr3_link3">
     <visual name="richard_fr3_link3_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link3.dae"/>
+        <mesh filename="meshes/visual/link3.dae"/>
       </geometry>
     </visual>
     <collision name="richard_fr3_link3_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link3.stl"/>
+        <mesh filename="meshes/collision/link3.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -471,12 +468,12 @@
   <link name="richard_fr3_link4">
     <visual name="richard_fr3_link4_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link4.dae"/>
+        <mesh filename="meshes/visual/link4.dae"/>
       </geometry>
     </visual>
     <collision name="richard_fr3_link4_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link4.stl"/>
+        <mesh filename="meshes/collision/link4.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -499,12 +496,12 @@
   <link name="richard_fr3_link5">
     <visual name="richard_fr3_link5_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link5.dae"/>
+        <mesh filename="meshes/visual/link5.dae"/>
       </geometry>
     </visual>
     <collision name="richard_fr3_link5_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link5.stl"/>
+        <mesh filename="meshes/collision/link5.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -527,12 +524,12 @@
   <link name="richard_fr3_link6">
     <visual name="richard_fr3_link6_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link6.dae"/>
+        <mesh filename="meshes/visual/link6.dae"/>
       </geometry>
     </visual>
     <collision name="richard_fr3_link6_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link6.stl"/>
+        <mesh filename="meshes/collision/link6.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -555,12 +552,12 @@
   <link name="richard_fr3_link7">
     <visual name="richard_fr3_link7_visual">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/visual/link7.dae"/>
+        <mesh filename="meshes/visual/link7.dae"/>
       </geometry>
     </visual>
     <collision name="richard_fr3_link7_collision">
       <geometry>
-        <mesh filename="/home/dong/Documents/PhD_Dualarm/dualarm-python-test/model/meshes/collision/link7.stl"/>
+        <mesh filename="meshes/collision/link7.stl"/>
       </geometry>
     </collision>
     <inertial>

@@ -1,0 +1,89 @@
+# Dual-arm reach with obstacle avoidance.
+# Stage 1 default: joint position residual (matches mujoco_dual_arm_joint_obstacle_env.py)
+# Stage 2: set controlType to osc (matches mujoco_dual_arm_ee_obstacle_env.py)
+name: DualArmReach
+
+physics_engine: ${..physics_engine}
+
+env:
+  numEnvs: ${resolve_default:512,${...num_envs}}
+  envSpacing: 2.0
+  episodeLength: 800
+  enableDebugVis: False
+
+  clipObservations: 5.0
+  clipActions: 1.0
+
+  # Stage 1: joint position residual, q_des = q + actionScale * action
+  controlType: joint_pos  # joint_pos | osc
+  actionScale: 0.03
+  controlFrequencyInv: 20  # matches MuJoCo joint env control_skip
+
+  # Joint PD behind position targets (stage 1)
+  jointPosStiffness: 400.0
+  jointPosDamping: 40.0
+  fixBaseJoint: false  # keep base_joint fixed during stage 1
+
+  # Stage 2 EE control settings (used when controlType: osc)
+  actionOriScale: 0.05
+  cartesianKp: 600.0
+  cartesianKd: 30.0
+  cartesianOriKp: 1.0
+  cartesianOriKd: 0.1
+  nullSpaceKp: 50.0
+  nullSpaceKd: 5.0
+  useNullSpace: True
+  orientationMode: track_target  # hold_initial | track_target
+
+  # Success / collision thresholds
+  goalArrivalThreshold: 0.02
+  goalArrivalOriThreshold: 0.15
+  eeRadius: 0.04
+  safeDistance: 0.10
+
+  # Reward scales (shared across control modes)
+  progressRewardScale: 3.0
+  distancePenaltyScale: 2.0
+  reachBonusScale: 1.0
+  laggingArmPenaltyScale: 2.0
+  obstaclePenaltyScale: 3.0
+  collisionPenalty: 30.0
+  successBonus: 50.0
+  actionPenaltyScale: 0.05
+  stepPenalty: 0.01
+
+  # Reset randomization
+  targetPosNoise: [0.0003, 0.0005, 0.0002]
+  obstaclePosNoise: [0.02, 0.03, 0.01]
+
+  aggregateMode: 0
+
+  asset:
+    assetRoot: "../../assets/dualarm"
+    assetFileName: "bifranka_robot.urdf"
+
+  enableCameraSensors: False
+
+sim:
+  dt: 0.002
+  substeps: 1
+  up_axis: "z"
+  use_gpu_pipeline: ${eq:${...pipeline},"gpu"}
+  gravity: [0.0, 0.0, -9.81]
+  physx:
+    num_threads: ${....num_threads}
+    solver_type: ${....solver_type}
+    use_gpu: ${contains:"cuda",${....sim_device}}
+    num_position_iterations: 8
+    num_velocity_iterations: 1
+    contact_offset: 0.005
+    rest_offset: 0.0
+    bounce_threshold_velocity: 0.2
+    max_depenetration_velocity: 1000.0
+    default_buffer_size_multiplier: 5.0
+    max_gpu_contact_pairs: 1048576
+    num_subscenes: ${....num_subscenes}
+    contact_collection: 0
+
+task:
+  randomize: False

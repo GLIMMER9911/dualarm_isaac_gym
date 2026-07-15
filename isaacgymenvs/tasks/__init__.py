@@ -57,6 +57,7 @@ from .allegro_kuka.allegro_kuka_two_arms_reorientation import AllegroKukaTwoArms
 # from .industreal.industreal_task_gears_insert import IndustRealTaskGearsInsert
 
 from .punyo_amp import PunyoAMP
+from .dualarm_reach import DualArmReach
 
 
 def resolve_allegro_kuka(cfg, *args, **kwargs):
@@ -114,4 +115,5 @@ isaacgym_task_map = {
     "ShadowHand": ShadowHand,
     "Trifinger": Trifinger,
     "PunyoV2AMP": PunyoAMP,
+    "DualArmReach": DualArmReach,
 }

@@ -29,6 +29,7 @@ test
 
 ```bash
 cd ./isaacgymenvs/ 
-python train.py
+python train.py task=DualArmReach headless=True num_envs=64
+
 ```
 
