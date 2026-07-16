@@ -29,7 +29,11 @@ test
 
 ```bash
 cd ./isaacgymenvs/ 
+
+export ISAAC_GYM_PATH=/opt/isaacgym 
+
 python train.py task=DualArmReach headless=True num_envs=64
 
+python train.py task=DualArmReach train=DualArmReachPPO test=True checkpoint="runs/DualArmReach_15-16-50-55/nn/last_DualArmReach_ep_10000_rew_9.01048.pth" num_envs=1 headless=False
 ```
 

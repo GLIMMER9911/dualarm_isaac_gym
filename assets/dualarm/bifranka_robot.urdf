@@ -21,10 +21,11 @@
   <!-- Define the base link -->
   <link name="base_link">
     <visual name="base_link_visual">
-      <origin xyz="-0.173 0 0 " rpy="0 0 1.5708"/>
+          <!-- <origin xyz="-0.173 0 0 " rpy="0 0 1.5708"/> -->
+      <origin xyz="-0.173 0 0 " rpy="-1.5708 0.0 1.5708"/>
       <geometry>
         <mesh 
-          filename="meshes/visual/base_mount.dae" />
+          filename="meshes/visual/base_mount.obj" />
       </geometry>
     </visual>
     <collision name="base_link_collision">
